@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: sylvie-api
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: DATABASE_URL
+        sync: false
+      - key: NEON_PROJECT_ID
+        value: misty-feather-22730419
+      - key: NEON_BRANCH
+        value: production
+      - key: DEBUG
+        value: false
