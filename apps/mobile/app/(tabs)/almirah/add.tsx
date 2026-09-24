@@ -124,7 +124,7 @@ export default function AddGarmentScreen() {
             </Text>
 
             <View style={styles.photosRow}>
-              {/* Front Photo */}
+              {/* Photo 1 (Front or Left Side) */}
               <TouchableOpacity
                 onPress={() => setFrontCaptured(true)}
                 activeOpacity={0.8}
@@ -135,11 +135,17 @@ export default function AddGarmentScreen() {
               >
                 <Text style={styles.photoBoxEmoji}>{frontCaptured ? '✓' : '📸'}</Text>
                 <Text style={styles.photoBoxLabel}>
-                  {frontCaptured ? 'Front Captured' : 'Tap for Front'}
+                  {frontCaptured
+                    ? selectedClass === 'footwear'
+                      ? 'Left Side Captured'
+                      : 'Front Captured'
+                    : selectedClass === 'footwear'
+                    ? 'Tap for Left Side'
+                    : 'Tap for Front'}
                 </Text>
               </TouchableOpacity>
 
-              {/* Back Photo */}
+              {/* Photo 2 (Back or Right Side) */}
               <TouchableOpacity
                 onPress={() => setBackCaptured(true)}
                 activeOpacity={0.8}
@@ -150,7 +156,13 @@ export default function AddGarmentScreen() {
               >
                 <Text style={styles.photoBoxEmoji}>{backCaptured ? '✓' : '📸'}</Text>
                 <Text style={styles.photoBoxLabel}>
-                  {backCaptured ? 'Back Captured' : 'Tap for Back'}
+                  {backCaptured
+                    ? selectedClass === 'footwear'
+                      ? 'Right Side Captured'
+                      : 'Back Captured'
+                    : selectedClass === 'footwear'
+                    ? 'Tap for Right Side'
+                    : 'Tap for Back'}
                 </Text>
               </TouchableOpacity>
             </View>

@@ -50,10 +50,10 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.container}>
       {/* Top Header */}
       <View style={styles.topHeader}>
-        <div>
+        <View>
           <Text style={styles.dateLabel}>Tuesday, Sep 24</Text>
           <Text style={styles.greeting}>Hey {displayName || 'Vaibhav'} 🌶️</Text>
-        </div>
+        </View>
         <TouchableOpacity
           onPress={() => router.push('/(tabs)/profile')}
           style={styles.avatarButton}
