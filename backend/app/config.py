@@ -8,9 +8,16 @@ class Settings(BaseSettings):
     PORT: int = 8000
     HOST: str = "0.0.0.0"
 
-    # Supabase (optional for standalone mode)
-    SUPABASE_URL: str = os.getenv("SUPABASE_URL", "")
-    SUPABASE_SERVICE_KEY: str = os.getenv("SUPABASE_SERVICE_KEY", "")
+    # Neon PostgreSQL (Production branch)
+    NEON_PROJECT_ID: str = os.getenv("NEON_PROJECT_ID", "misty-feather-22730419")
+    NEON_BRANCH: str = os.getenv("NEON_BRANCH", "production")
+    DATABASE_URL: str = os.getenv(
+        "DATABASE_URL",
+        os.getenv(
+            "NEON_DATABASE_URL",
+            "postgresql://neondb_owner:password@ep-misty-feather-22730419.us-east-2.aws.neon.tech/neondb?sslmode=require"
+        )
+    )
 
     # AI & Services
     ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")

@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Sparkles, Shirt, Wand2, BarChart3, CheckCircle2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, Shirt, Wand2, BarChart3, CheckCircle2, Smartphone, ShieldCheck, Thermometer } from 'lucide-react';
 
 const DEMO_STEPS = [
   {
@@ -233,29 +234,50 @@ export const PhoneDemo = () => {
   const [activeStep, setActiveStep] = useState(0);
 
   return (
-    <section id="demo" className="py-24 bg-dark-surface/50 border-y border-dark-border relative">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-mono font-semibold uppercase tracking-widest text-chili-400">
+    <section id="demo" className="py-28 bg-dark-surface/50 border-y border-dark-border relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-20">
+          <motion.span
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-xs font-mono font-semibold uppercase tracking-widest text-chili-400"
+          >
             Interactive Product Preview
-          </span>
-          <h2 className="font-display text-3xl sm:text-5xl font-bold text-white mt-3 mb-4">
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="font-display text-3xl sm:text-5xl font-bold text-white mt-3 mb-4"
+          >
             Experience the Sylvie interface
-          </h2>
-          <p className="text-spice-parchment/70 text-base sm:text-lg">
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-spice-parchment/70 text-base sm:text-lg"
+          >
             Tap through the key views to see how Sylvie transforms physical clothes into a responsive stylist.
-          </p>
+          </motion.p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left: Step selectors */}
+          {/* Left: Step selectors with staggered entrance */}
           <div className="lg:col-span-6 space-y-4">
             {DEMO_STEPS.map((step, idx) => {
               const Icon = step.icon;
               const isActive = idx === activeStep;
               return (
-                <button
+                <motion.button
                   key={step.id}
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
                   onClick={() => setActiveStep(idx)}
                   className={`w-full text-left p-6 rounded-3xl transition-all duration-300 border flex items-start gap-4 ${
                     isActive
@@ -264,9 +286,9 @@ export const PhoneDemo = () => {
                   }`}
                 >
                   <div
-                    className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
+                    className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 transition-transform ${
                       isActive
-                        ? 'bg-chili-500 text-white shadow-chili'
+                        ? 'bg-chili-500 text-white shadow-chili scale-105'
                         : 'bg-dark-bg border border-dark-border text-spice-parchment/60'
                     }`}
                   >
@@ -288,21 +310,58 @@ export const PhoneDemo = () => {
                       {step.desc}
                     </p>
                   </div>
-                </button>
+                </motion.button>
               );
             })}
           </div>
 
-          {/* Right: Mockup showing active screen */}
-          <div className="lg:col-span-6 flex justify-center">
+          {/* Right: Mockup showing active screen with Floating Parallax Badges */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-6 flex justify-center relative"
+          >
+            {/* Floating decorative elements */}
+            <motion.div
+              animate={{ y: [-8, 8, -8] }}
+              transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
+              className="absolute -top-6 -right-4 sm:right-6 px-4 py-2 rounded-2xl bg-dark-card border border-chili-500/50 shadow-xl backdrop-blur-md z-30 flex items-center gap-2 text-xs font-mono text-chili-300"
+            >
+              <Smartphone className="w-4 h-4 text-chili-400" />
+              <span>Native Expo SDK 52</span>
+            </motion.div>
+
+            <motion.div
+              animate={{ y: [6, -6, 6] }}
+              transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut', delay: 1 }}
+              className="absolute -bottom-4 -left-4 sm:left-6 px-4 py-2 rounded-2xl bg-dark-card border border-dark-border shadow-xl backdrop-blur-md z-30 flex items-center gap-2 text-xs font-mono text-emerald-300"
+            >
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span>Offline-First SQLite Cache</span>
+            </motion.div>
+
+            {/* Phone Frame */}
             <div className="w-[320px] sm:w-[360px] h-[640px] rounded-[48px] p-3 bg-gradient-to-b from-[#2E1410] via-[#1F0C0A] to-[#0E0504] border-[3px] border-chili-800/60 shadow-2xl shadow-chili-950/90 relative">
               {/* Notch */}
               <div className="absolute top-5 left-1/2 -translate-x-1/2 w-24 h-4 bg-black rounded-full z-20" />
               <div className="w-full h-full rounded-[38px] overflow-hidden border border-dark-border bg-dark-bg">
-                {DEMO_STEPS[activeStep].screenRender()}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeStep}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.02 }}
+                    transition={{ duration: 0.25 }}
+                    className="w-full h-full"
+                  >
+                    {DEMO_STEPS[activeStep].screenRender()}
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

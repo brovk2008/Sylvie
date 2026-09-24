@@ -2,44 +2,45 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Download, Sparkles, RefreshCw, Sun, CheckCircle, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Download, Sparkles, RefreshCw, Sun, CheckCircle, ArrowRight, ShieldCheck } from 'lucide-react';
 
 const SAMPLE_OUTFITS = [
   {
-    occasion: 'College Morning',
+    occasion: 'College Pitch & Cafe',
     weather: 'Sunny · 28°C',
     clo: '0.68 CLO',
-    match: '96%',
-    harmony: 'Analogous Flow',
-    top: { name: 'Oversized Boxy Tee', color: '#1C0A08', label: 'Charcoal' },
-    bottom: { name: 'Raw Denim Wide Jeans', color: '#1A365D', label: 'Deep Navy' },
-    shoes: { name: 'Low-Top Leather Sneakers', color: '#FDF5E6', label: 'Cream Parchment' },
-    accent: { name: 'Chili Canvas Work Jacket', color: '#E83B2E', label: 'Chili Accent' },
-    notes: 'Grounding oversized charcoal with structured raw denim creates an effortless collegiate silhouette. Cream sneakers prevent low-end visual weight.',
+    match: '98%',
+    harmony: 'Analogous Warmth',
+    top: { name: 'Oversized Boxy Knit', color: '#C0392B', label: 'Terracotta Chili' },
+    bottom: { name: 'Raw Denim Wide Trousers', color: '#1A365D', label: 'Deep Navy' },
+    shoes: { name: 'Low-Top Leather Court Shoes', color: '#FDF5E6', label: 'Cream Bisque' },
+    accent: { name: 'Canvas Chore Jacket', color: '#8B4513', label: 'Saddle Tan' },
+    notes: 'Grounding oversized terracotta with structured raw denim creates an effortless collegiate silhouette with optimal 0.68 thermal breathability.',
   },
   {
-    occasion: 'First Date 💕',
-    weather: 'Clear Evening · 24°C',
+    occasion: 'Bistro Date Night 💕',
+    weather: 'Clear Evening · 22°C',
     clo: '0.74 CLO',
-    match: '98%',
+    match: '99%',
     harmony: 'Complementary Contrast',
     top: { name: 'Relaxed Silk Blend Shirt', color: '#F7E8D0', label: 'Warm Bisque' },
     bottom: { name: 'Pleated Tapered Trousers', color: '#4A0E0A', label: 'Dark Chili' },
-    shoes: { name: 'Classic Derby Brogues', color: '#7B1810', label: 'Deep Oxblood' },
-    accent: { name: 'Minimalist Steel Chronograph', color: '#C9A826', label: 'Gold Shimmer' },
+    shoes: { name: 'Classic Derby Brogues', color: '#7B1810', label: 'Oxblood Leather' },
+    accent: { name: 'Gold Dial Minimalist Watch', color: '#C9A826', label: 'Gold Shimmer' },
     notes: 'The high-contrast pairing of warm bisque and deep chili commands subtle luxury. Proportions emphasize shoulder drape while tapering cleanly at the ankle.',
   },
   {
-    occasion: 'Weekend Brunch',
-    weather: 'Breezy · 26°C',
-    clo: '0.62 CLO',
-    match: '94%',
-    harmony: 'Monochromatic Tonal',
-    top: { name: 'Waffle Knit Quarter-Zip', color: '#C0271B', label: 'Spice Red' },
+    occasion: 'Art Gallery Weekend',
+    weather: 'Breezy · 24°C',
+    clo: '0.65 CLO',
+    match: '96%',
+    harmony: 'Earthy Triadic Tonal',
+    top: { name: 'Sage Green Overshirt', color: '#587B58', label: 'Earthy Sage' },
     bottom: { name: 'Relaxed Linen Drawstring Pants', color: '#FDF5E6', label: 'Cream Linen' },
     shoes: { name: 'Suede Gum-Sole Runners', color: '#D35400', label: 'Paprika Amber' },
-    accent: { name: 'Woven Leather Belt', color: '#8B4513', label: 'Saddle Tan' },
-    notes: 'Textural interplay between waffle knit and breathable linen gives depth without overheating. Calibrated to 0.62 CLO for mid-day sunlight.',
+    accent: { name: 'Woven Calfskin Belt', color: '#2C1B18', label: 'Espresso' },
+    notes: 'Textural interplay between airy sage linen and heavyweight cream creates tactile depth without overheating under gallery spotlighting.',
   },
 ];
 
@@ -54,27 +55,45 @@ export const Hero = () => {
     setTimeout(() => {
       setCurrentOutfitIndex((prev) => (prev + 1) % SAMPLE_OUTFITS.length);
       setShuffling(false);
-    }, 250);
+    }, 200);
   };
 
   return (
-    <section className="relative min-h-[92vh] pt-32 pb-20 flex items-center bg-radial-hero overflow-hidden">
-      {/* Decorative ambient elements */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-chili-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-chili-900/30 rounded-full blur-[120px] pointer-events-none" />
+    <section className="relative min-h-[96vh] pt-36 pb-20 flex items-center bg-radial-hero overflow-hidden">
+      {/* Decorative ambient lighting */}
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.25, 0.15] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-1/4 -left-32 w-96 h-96 bg-chili-500/20 rounded-full blur-3xl pointer-events-none"
+      />
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.35, 0.2] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        className="absolute bottom-10 right-10 w-[550px] h-[550px] bg-chili-900/35 rounded-full blur-[140px] pointer-events-none"
+      />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 w-full">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column — Editorial Hero Content */}
-          <div className="lg:col-span-7 flex flex-col items-start z-10">
+          <motion.div
+            initial={{ opacity: 0, x: -40, y: 20 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 flex flex-col items-start"
+          >
             {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-chili-950/80 border border-chili-700/60 text-xs font-mono tracking-wider uppercase text-chili-300 mb-6 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-chili-950/80 border border-chili-700/60 text-xs font-mono tracking-wider uppercase text-chili-300 mb-6 backdrop-blur-md shadow-lg"
+            >
               <span className="w-2 h-2 rounded-full bg-chili-500 animate-ping" />
-              <span>Multi-Stage AI · Real Wardrobe Only</span>
-            </div>
+              <span>Multi-Stage AI · Real Wardrobe Only · Zero Stock Photos</span>
+            </motion.div>
 
             {/* Headline */}
-            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08] mb-6">
+            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.06] mb-6">
               Your wardrobe.{' '}
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-chili-400 via-chili-500 to-spice-paprika">
                 Your rules.
@@ -83,7 +102,7 @@ export const Hero = () => {
 
             {/* Subhead */}
             <p className="text-lg sm:text-xl text-spice-parchment/85 font-normal max-w-2xl leading-relaxed mb-8">
-              Sylvie digitizes every piece of clothing you physically own, reads your skin tone and live weather, then assembles runway-grade daily outfits that actually exist in your almirah.
+              Sylvie digitizes every single garment in your physical closet, synchronizes with your skin undertone and real-time weather, then engineers magazine-grade outfits you actually own.
             </p>
 
             {/* CTAs */}
@@ -99,165 +118,140 @@ export const Hero = () => {
 
               <a
                 href="#demo"
-                className="flex items-center justify-center gap-2 px-7 py-4 rounded-full glass-panel hover:bg-dark-elevated text-spice-parchment font-medium text-base transition-all duration-300 hover:border-chili-500/50"
+                className="flex items-center justify-center gap-2.5 px-6 py-4 rounded-full bg-dark-card hover:bg-dark-surface border border-dark-border hover:border-chili-700 text-spice-parchment font-medium text-base transition-all duration-300"
               >
-                <span>Interactive Walkthrough</span>
+                <Sparkles className="w-4 h-4 text-spice-gold" />
+                <span>See How It Works</span>
               </a>
             </div>
 
-            {/* Trust / Stats strip */}
-            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-dark-border/80 w-full max-w-lg">
+            {/* Trust Metrics */}
+            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-dark-border w-full max-w-lg">
               <div>
-                <p className="font-display text-2xl font-bold text-white">0%</p>
-                <p className="text-xs text-spice-parchment/60 font-medium">Generic Stock Looks</p>
+                <p className="font-display text-2xl sm:text-3xl font-bold text-white">40</p>
+                <p className="text-xs text-spice-parchment/60 font-mono mt-0.5">Skin Tone Swatches</p>
               </div>
               <div>
-                <p className="font-display text-2xl font-bold text-chili-400">100%</p>
-                <p className="text-xs text-spice-parchment/60 font-medium">Clothes You Own</p>
+                <p className="font-display text-2xl sm:text-3xl font-bold text-chili-400">100%</p>
+                <p className="text-xs text-spice-parchment/60 font-mono mt-0.5">Physical Wardrobe</p>
               </div>
               <div>
-                <p className="font-display text-2xl font-bold text-spice-gold">ISO 7730</p>
-                <p className="text-xs text-spice-parchment/60 font-medium">CLO Weather Math</p>
+                <p className="font-display text-2xl sm:text-3xl font-bold text-spice-gold">CLO-Calibrated</p>
+                <p className="text-xs text-spice-parchment/60 font-mono mt-0.5">Live Weather Logic</p>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right Column — 3D-Styled Animated Interactive Device Mockup */}
-          <div className="lg:col-span-5 flex justify-center items-center relative">
-            {/* Phone outer bezel */}
-            <div className="relative w-full max-w-[340px] sm:max-w-[380px] rounded-[48px] p-3.5 bg-gradient-to-b from-[#2E1410] via-[#1F0C0A] to-[#0E0504] border-[3px] border-chili-800/60 shadow-2xl shadow-chili-950/80">
-              {/* Camera Notch pill */}
-              <div className="absolute top-6 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-full z-30 flex items-center justify-center">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#1a1a1a] mr-2" />
-                <div className="w-1.5 h-1.5 rounded-full bg-chili-600/60" />
-              </div>
-
-              {/* Inner Screen */}
-              <div className="relative rounded-[38px] bg-dark-bg overflow-hidden border border-dark-border/60 p-5 text-spice-cream min-h-[580px] flex flex-col justify-between">
-                {/* App Screen Header */}
+          {/* Right Column — Interactive 3D Outfit Card Preview */}
+          <motion.div
+            initial={{ opacity: 0, x: 40, y: 20 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 relative"
+          >
+            {/* Card Shell */}
+            <div className="relative rounded-3xl p-6 sm:p-8 bg-dark-card/90 border border-dark-border shadow-2xl backdrop-blur-xl">
+              {/* Card Header */}
+              <div className="flex items-center justify-between pb-5 border-b border-dark-border mb-6">
                 <div>
-                  <div className="flex items-center justify-between pt-4 mb-4">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono font-semibold text-chili-400 tracking-wider">
-                        SYLVIE AI
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1.5 text-xs text-spice-parchment/70 bg-dark-surface px-2.5 py-1 rounded-full border border-dark-border">
-                      <Sun className="w-3.5 h-3.5 text-spice-gold" />
-                      <span>{outfit.weather}</span>
-                    </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono uppercase tracking-widest text-chili-400">
+                      Live Outfit Computation
+                    </span>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono bg-chili-500/20 text-chili-300 border border-chili-500/30">
+                      Sylvie Engine v1
+                    </span>
                   </div>
-
-                  {/* Today's Fit Card */}
-                  <div
-                    className={`rounded-2xl p-4 bg-gradient-to-b from-dark-surface to-dark-elevated border border-chili-700/50 shadow-card transition-all duration-300 ${
-                      shuffling ? 'opacity-40 scale-95' : 'opacity-100 scale-100'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <div>
-                        <span className="text-[10px] font-mono uppercase text-spice-parchment/60 tracking-wider">
-                          Recommended Fit
-                        </span>
-                        <h4 className="font-display text-lg font-bold text-white">
-                          {outfit.occasion}
-                        </h4>
-                      </div>
-                      <span className="text-xs font-bold text-spice-gold px-2 py-0.5 rounded-md bg-spice-gold/10 border border-spice-gold/30">
-                        {outfit.match} Match
-                      </span>
-                    </div>
-
-                    {/* Garment Stack preview */}
-                    <div className="space-y-2 mb-3">
-                      {/* Top */}
-                      <div className="flex items-center justify-between p-2 rounded-xl bg-dark-bg/80 border border-dark-border/80">
-                        <div className="flex items-center gap-2.5">
-                          <div
-                            className="w-4 h-4 rounded-full border border-white/20 shadow-sm"
-                            style={{ backgroundColor: outfit.top.color }}
-                          />
-                          <span className="text-xs font-medium text-white">{outfit.top.name}</span>
-                        </div>
-                        <span className="text-[10px] text-spice-parchment/60 font-mono">
-                          {outfit.top.label}
-                        </span>
-                      </div>
-
-                      {/* Bottom */}
-                      <div className="flex items-center justify-between p-2 rounded-xl bg-dark-bg/80 border border-dark-border/80">
-                        <div className="flex items-center gap-2.5">
-                          <div
-                            className="w-4 h-4 rounded-full border border-white/20 shadow-sm"
-                            style={{ backgroundColor: outfit.bottom.color }}
-                          />
-                          <span className="text-xs font-medium text-white">{outfit.bottom.name}</span>
-                        </div>
-                        <span className="text-[10px] text-spice-parchment/60 font-mono">
-                          {outfit.bottom.label}
-                        </span>
-                      </div>
-
-                      {/* Footwear */}
-                      <div className="flex items-center justify-between p-2 rounded-xl bg-dark-bg/80 border border-dark-border/80">
-                        <div className="flex items-center gap-2.5">
-                          <div
-                            className="w-4 h-4 rounded-full border border-white/20 shadow-sm"
-                            style={{ backgroundColor: outfit.shoes.color }}
-                          />
-                          <span className="text-xs font-medium text-white">{outfit.shoes.name}</span>
-                        </div>
-                        <span className="text-[10px] text-spice-parchment/60 font-mono">
-                          {outfit.shoes.label}
-                        </span>
-                      </div>
-
-                      {/* Accent / Outer */}
-                      <div className="flex items-center justify-between p-2 rounded-xl bg-dark-bg/80 border border-dark-border/80">
-                        <div className="flex items-center gap-2.5">
-                          <div
-                            className="w-4 h-4 rounded-full border border-white/20 shadow-sm"
-                            style={{ backgroundColor: outfit.accent.color }}
-                          />
-                          <span className="text-xs font-medium text-white">{outfit.accent.name}</span>
-                        </div>
-                        <span className="text-[10px] text-chili-400 font-mono">
-                          {outfit.accent.label}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Harmony & CLO tags */}
-                    <div className="flex items-center justify-between pt-2 border-t border-dark-border text-[11px] font-mono text-spice-parchment/70">
-                      <span>🎨 {outfit.harmony}</span>
-                      <span>🌡️ {outfit.clo}</span>
-                    </div>
-                  </div>
-
-                  {/* Stylist Notes Card */}
-                  <div className="mt-3 p-3 rounded-xl bg-dark-surface/60 border border-dark-border text-xs text-spice-parchment/80 leading-relaxed italic">
-                    &ldquo;{outfit.notes}&rdquo;
-                  </div>
+                  <h3 className="font-display text-xl font-bold text-white mt-1">
+                    {outfit.occasion}
+                  </h3>
                 </div>
 
-                {/* Bottom Interactive Action Buttons */}
-                <div className="pt-4 flex gap-2">
-                  <button
-                    onClick={handleShuffle}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-dark-elevated hover:bg-dark-border text-xs font-medium text-white border border-dark-border transition-colors active:scale-95"
-                  >
-                    <RefreshCw className={`w-3.5 h-3.5 text-chili-400 ${shuffling ? 'animate-spin' : ''}`} />
-                    <span>Shuffle Outfit</span>
-                  </button>
+                <button
+                  onClick={handleShuffle}
+                  disabled={shuffling}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-dark-surface hover:bg-dark-border border border-dark-border text-xs text-spice-parchment transition-all hover:text-white group"
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 text-chili-400 ${shuffling ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`} />
+                  <span>Shuffle</span>
+                </button>
+              </div>
 
-                  <button className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-chili-500 hover:bg-chili-600 text-xs font-semibold text-white shadow-chili transition-colors">
-                    <CheckCircle className="w-3.5 h-3.5" />
-                    <span>Wear This</span>
-                  </button>
+              {/* Weather & Comfort Indicators */}
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="p-3 rounded-2xl bg-dark-surface/80 border border-dark-border/60">
+                  <div className="flex items-center gap-1.5 text-spice-gold mb-1">
+                    <Sun className="w-3.5 h-3.5" />
+                    <span className="text-[10px] font-mono uppercase">Live Weather</span>
+                  </div>
+                  <p className="text-xs font-semibold text-white">{outfit.weather}</p>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-dark-surface/80 border border-dark-border/60">
+                  <span className="text-[10px] font-mono uppercase text-chili-400 block mb-1">
+                    Thermal Score
+                  </span>
+                  <p className="text-xs font-semibold text-white">{outfit.clo}</p>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-dark-surface/80 border border-dark-border/60">
+                  <span className="text-[10px] font-mono uppercase text-emerald-400 block mb-1">
+                    Harmony Index
+                  </span>
+                  <p className="text-xs font-semibold text-emerald-300">{outfit.match} Match</p>
                 </div>
               </div>
+
+              {/* Garment Stack with AnimatePresence */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentOutfitIndex}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-2.5 mb-6"
+                >
+                  {[
+                    { slot: 'Top', item: outfit.top },
+                    { slot: 'Bottom', item: outfit.bottom },
+                    { slot: 'Shoes', item: outfit.shoes },
+                    { slot: 'Accent', item: outfit.accent },
+                  ].map(({ slot, item }) => (
+                    <div
+                      key={slot}
+                      className="flex items-center justify-between p-3 rounded-2xl bg-dark-surface/50 border border-dark-border/50 hover:border-chili-700/50 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span
+                          className="w-4 h-4 rounded-full border border-white/20 shadow-sm shrink-0"
+                          style={{ backgroundColor: item.color }}
+                        />
+                        <div>
+                          <p className="text-xs font-semibold text-white">{item.name}</p>
+                          <p className="text-[10px] text-spice-parchment/60 font-mono">
+                            {slot} · {item.label}
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-950/60 text-emerald-400 border border-emerald-800/40">
+                        In Almirah
+                      </span>
+                    </div>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Stylist Notes Box */}
+              <div className="p-4 rounded-2xl bg-chili-950/40 border border-chili-900/60 text-xs text-spice-parchment/90 leading-relaxed">
+                <div className="flex items-center gap-2 text-chili-400 font-mono text-[11px] mb-1">
+                  <Sparkles className="w-3 h-3" />
+                  <span>Stylist Reasoning ({outfit.harmony})</span>
+                </div>
+                <p className="italic">{outfit.notes}</p>
+              </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
