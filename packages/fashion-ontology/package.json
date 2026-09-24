@@ -1,0 +1,13 @@
+{
+  "name": "@sylvie/fashion-ontology",
+  "version": "1.0.0",
+  "description": "Master fashion ontology types, constants, and color harmony algorithms for Sylvie",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}
