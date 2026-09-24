@@ -76,7 +76,6 @@ export default function OnboardingCarousel() {
       {/* Bottom Navigation */}
       <View style={styles.footer}>
         {/* Progress Dots */}
-        <div style={{ display: 'none' }} />
         <View style={styles.dotsRow}>
           {SLIDES.map((_, i) => (
             <View

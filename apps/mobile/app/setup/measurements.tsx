@@ -98,10 +98,10 @@ export default function MeasurementsScreen() {
         {/* Live BMI Dial Card */}
         <View style={styles.bmiCard}>
           <View style={styles.bmiTop}>
-            <div>
+            <View>
               <Text style={styles.bmiTitle}>BODY MASS INDEX</Text>
               <Text style={styles.bmiValue}>{bmi}</Text>
-            </div>
+            </View>
             <View style={[styles.bmiBadge, { borderColor: bmiCat.color }]}>
               <Text style={[styles.bmiBadgeText, { color: bmiCat.color }]}>
                 {bmiCat.label}

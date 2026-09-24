@@ -6,6 +6,7 @@ import { EditorialLookbook } from '@/components/sections/EditorialLookbook';
 import { ChromaticSpectrum } from '@/components/sections/ChromaticSpectrum';
 import { Features } from '@/components/sections/Features';
 import { PhoneDemo } from '@/components/sections/PhoneDemo';
+import { MasterOntologySection } from '@/components/sections/MasterOntologySection';
 import { HowItWorks } from '@/components/sections/HowItWorks';
 import { StyleSurveyPreview } from '@/components/sections/StyleSurveyPreview';
 import { DownloadSection } from '@/components/sections/Download';
@@ -21,6 +22,7 @@ export default function Home() {
       <ChromaticSpectrum />
       <Features />
       <PhoneDemo />
+      <MasterOntologySection />
       <HowItWorks />
       <StyleSurveyPreview />
       <DownloadSection />

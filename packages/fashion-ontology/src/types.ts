@@ -4,7 +4,78 @@ export type GarmentClass =
   | 'one_piece'
   | 'outerwear'
   | 'footwear'
-  | 'accessory';
+  | 'accessory'
+  | 'traditional_ethnic'
+  | 'activewear'
+  | 'sleepwear'
+  | 'swimwear'
+  | 'underwear';
+
+export type TopSubcategory =
+  | 't_shirt'
+  | 'polo'
+  | 'shirt'
+  | 'blouse'
+  | 'tank_top'
+  | 'camisole'
+  | 'crop_top'
+  | 'tube_top'
+  | 'halter_top'
+  | 'bodysuit'
+  | 'sweater'
+  | 'cardigan'
+  | 'hoodie'
+  | 'sweatshirt'
+  | 'tunic'
+  | 'kurta';
+
+export type BottomSubcategory =
+  | 'jeans'
+  | 'trousers'
+  | 'chinos'
+  | 'cargo_pants'
+  | 'joggers'
+  | 'sweatpants'
+  | 'leggings'
+  | 'shorts'
+  | 'skirt'
+  | 'dhoti'
+  | 'lungi'
+  | 'palazzo'
+  | 'culottes';
+
+export type OnePieceSubcategory =
+  | 'dress'
+  | 'jumpsuit'
+  | 'romper'
+  | 'overalls'
+  | 'kurta_pajama_set'
+  | 'saree'
+  | 'lehenga'
+  | 'anarkali'
+  | 'sherwani';
+
+export type OuterwearSubcategory =
+  | 'jacket'
+  | 'coat'
+  | 'blazer'
+  | 'trench_coat'
+  | 'bomber'
+  | 'denim_jacket'
+  | 'puffer'
+  | 'nehru_jacket';
+
+export type FootwearSubcategory =
+  | 'sneakers'
+  | 'boots'
+  | 'loafers'
+  | 'sandals'
+  | 'oxfords'
+  | 'mules'
+  | 'derbies'
+  | 'chelsea_boots'
+  | 'juttis'
+  | 'kolhapuris';
 
 export type FitType =
   | 'ultra_slim'
@@ -15,7 +86,12 @@ export type FitType =
   | 'loose'
   | 'oversized'
   | 'boxy'
-  | 'draped';
+  | 'tailored'
+  | 'athletic'
+  | 'compression'
+  | 'draped'
+  | 'bodycon'
+  | 'a_line';
 
 export type SleeveType =
   | 'sleeveless'
@@ -23,7 +99,8 @@ export type SleeveType =
   | 'short'
   | 'elbow'
   | 'three_quarter'
-  | 'long';
+  | 'long'
+  | 'extra_long';
 
 export type NecklineType =
   | 'crew'
@@ -31,21 +108,34 @@ export type NecklineType =
   | 'scoop'
   | 'boat'
   | 'square'
-  | 'turtleneck'
+  | 'sweetheart'
+  | 'halter'
   | 'hooded'
+  | 'turtleneck'
+  | 'mock_neck'
   | 'mandarin'
   | 'collar'
   | 'polo'
+  | 'spread_collar'
+  | 'button_down'
+  | 'peter_pan'
+  | 'notched_lapel'
+  | 'shawl_collar'
   | 'henley';
 
 export type ClosureType =
   | 'buttons'
   | 'zipper'
-  | 'pullover'
+  | 'snaps'
+  | 'hooks'
+  | 'velcro'
   | 'drawstring'
-  | 'wrap'
   | 'tie'
-  | 'snap';
+  | 'wrap'
+  | 'pullover'
+  | 'open_front'
+  | 'half_zip'
+  | 'full_zip';
 
 export type WaistRiseType = 'low' | 'mid' | 'high' | 'ultra_high';
 
@@ -57,7 +147,9 @@ export type SilhouetteType =
   | 'relaxed'
   | 'fitted'
   | 'wide_leg'
-  | 'cargo';
+  | 'cargo'
+  | 'skinny'
+  | 'bootcut';
 
 export type ColorTemperature = 'warm' | 'cool' | 'neutral';
 
@@ -65,35 +157,151 @@ export type PatternType =
   | 'solid'
   | 'horizontal_stripe'
   | 'vertical_stripe'
+  | 'diagonal_stripe'
   | 'plaid'
   | 'check'
+  | 'gingham'
+  | 'tartan'
+  | 'houndstooth'
+  | 'polka_dot'
   | 'floral'
+  | 'paisley'
   | 'geometric'
-  | 'graphic'
+  | 'abstract'
+  | 'animal_print'
   | 'camo'
   | 'tie_dye'
-  | 'polka_dot';
+  | 'ombre'
+  | 'argyle'
+  | 'damask'
+  | 'tropical'
+  | 'graphic'
+  | 'logo'
+  | 'typography';
 
 export type TextureType =
   | 'smooth'
   | 'ribbed'
   | 'knit'
+  | 'woven'
   | 'rough'
   | 'fuzzy'
+  | 'furry'
+  | 'nubby'
   | 'crinkled'
+  | 'pleated'
   | 'quilted'
+  | 'embossed'
+  | 'shiny'
+  | 'matte'
+  | 'glossy'
+  | 'metallic'
+  | 'leather_like'
+  | 'suede_like'
   | 'waffle';
 
-export type CleanStatus = 'clean' | 'dirty' | 'washing' | 'drying' | 'ironed';
+export type FinishType =
+  | 'matte'
+  | 'gloss'
+  | 'satin'
+  | 'washed'
+  | 'distressed'
+  | 'faded'
+  | 'raw'
+  | 'coated'
+  | 'waxed'
+  | 'brushed'
+  | 'polished'
+  | 'stonewashed'
+  | 'acid_washed';
 
-export type LayeringRole = 'base' | 'mid' | 'outer' | 'standalone';
+export type CleanStatus =
+  | 'clean'
+  | 'dirty'
+  | 'needs_washing'
+  | 'drying'
+  | 'ironed'
+  | 'wrinkled'
+  | 'damaged'
+  | 'repair_needed'
+  | 'missing'
+  | 'packed'
+  | 'stored'
+  | 'available'
+  | 'unavailable';
 
-export type OutfitRole = 'foundation' | 'statement' | 'accent' | 'neutralizer';
+export type LayeringRole =
+  | 'base'
+  | 'mid'
+  | 'outer'
+  | 'standalone'
+  | 'layerable'
+  | 'non_layerable';
+
+export type OutfitRole =
+  | 'foundation'
+  | 'statement'
+  | 'accent'
+  | 'neutralizer'
+  | 'focal_point'
+  | 'supporting'
+  | 'transition';
+
+export type SeasonType =
+  | 'spring'
+  | 'summer'
+  | 'monsoon'
+  | 'autumn'
+  | 'winter'
+  | 'all_season'
+  | 'hot_dry'
+  | 'hot_humid'
+  | 'mild'
+  | 'cool'
+  | 'cold';
+
+export type ObservabilityLevel =
+  | 'level_a' // Directly observable: Color, Pattern, Sleeve, Garment Category, Logo, Length
+  | 'level_b' // Visually inferable: Material, Fit, Texture, Formality, Silhouette, Season suitability
+  | 'level_c' // Context-dependent: Occasion, Aesthetic, Style, Cultural meaning, Weather suitability
+  | 'level_d'; // User-dependent: Comfort, Confidence, Favorite, Personal taste, Emotional association
+
+export type ConfidenceActionTier =
+  | 'auto_accept'        // Confidence > 0.90
+  | 'confirm_with_user'  // Confidence 0.60 - 0.90
+  | 'ask_user';          // Confidence < 0.60
 
 export interface HSLColor {
   h: number; // 0 - 360
   s: number; // 0 - 100
   l: number; // 0 - 100
+}
+
+export interface ColorDistribution {
+  rule: '60_30_10' | 'monochrome' | 'bicolor' | 'multicolor';
+  dominant_area_pct: number;
+  secondary_area_pct?: number;
+  accent_area_pct?: number;
+}
+
+export interface PatternCharacteristics {
+  scale: 'micro' | 'small' | 'medium' | 'large';
+  density: 'low' | 'medium' | 'high';
+  contrast: 'low' | 'medium' | 'high';
+  direction?: 'horizontal' | 'vertical' | 'diagonal' | 'multidirectional';
+}
+
+export interface BodyProportionEffect {
+  volume: 'fitted' | 'regular' | 'oversized_volume';
+  emphasis:
+    | 'vertical_emphasis'
+    | 'horizontal_emphasis'
+    | 'shoulder_emphasis'
+    | 'waist_emphasis'
+    | 'leg_lengthening'
+    | 'torso_lengthening'
+    | 'balanced';
+  structure: 'structured' | 'draped' | 'relaxed';
 }
 
 export interface GarmentAttributes {
@@ -103,7 +311,7 @@ export interface GarmentAttributes {
   custom_name?: string;
   brand?: string;
 
-  // Physical
+  // 03-05. Structural, Fit, Dimensions
   fit: FitType;
   length_torso?: string;
   sleeve?: SleeveType;
@@ -113,38 +321,49 @@ export interface GarmentAttributes {
   waist_rise?: WaistRiseType;
   silhouette?: SilhouetteType;
 
-  // Visual
+  // 10-15. Color, Distribution, Pattern, Texture, Finish
   dominant_color_hex: string;
   dominant_color_name: string;
   dominant_hsl: HSLColor;
   secondary_color_hex?: string;
   accent_color_hex?: string;
   color_temperature: ColorTemperature;
+  color_distribution?: ColorDistribution;
   pattern: PatternType;
-  pattern_scale?: 'micro' | 'small' | 'medium' | 'large';
+  pattern_meta?: PatternCharacteristics;
   texture: TextureType;
-  finish?: 'matte' | 'gloss' | 'satin' | 'washed' | 'distressed';
+  finish?: FinishType;
 
-  // Material
+  // 08-09. Material & Properties
   primary_fiber: string;
+  fabric_construction?: string;
   weight?: 'lightweight' | 'medium' | 'heavy';
   stretch?: 'none' | 'low' | 'medium' | 'high';
+  breathability?: 'high' | 'moderate' | 'low';
   opacity?: 'opaque' | 'semi_sheer' | 'sheer';
   water_resistant?: boolean;
+  wind_resistant?: boolean;
 
-  // Semantic
-  formality_score: number; // 0.0 - 10.0
+  // 17-27. Semantic & Contextual
+  formality_score: number; // 0.0 - 10.0 continuous scale
   aesthetic_weights: Record<string, number>;
   occasions: string[];
-  seasons: string[];
+  seasons: SeasonType[];
   weather_temp_range_c: [number, number];
   cultural_style?: string;
+  cultural_formality?: string;
   layering_role: LayeringRole;
   outfit_role: OutfitRole;
   clo_value: number;
+  body_effect?: BodyProportionEffect;
 
-  // Confidence flags from AI
+  // 28. Color Psychology & Perception probabilities
+  color_psychology?: Record<string, number>;
+
+  // 35-37. AI Metadata & Observability Confidence
   ai_confidence?: Record<string, number>;
+  observability_levels?: Record<string, ObservabilityLevel>;
+  action_tiers?: Record<string, ConfidenceActionTier>;
 }
 
 export interface Garment extends GarmentAttributes {
@@ -170,12 +389,12 @@ export interface Garment extends GarmentAttributes {
   user_confirmed: boolean;
   user_custom_tags: string[];
 
-  // Wear tracking
+  // 32. Wear tracking & Cost-Per-Wear
   wear_count: number;
   last_worn_at?: string;
   days_since_worn?: number;
 
-  // Commercial
+  // 33. Commercial Data
   purchase_price?: number;
   purchase_currency?: string;
   purchased_at?: string;
@@ -198,6 +417,15 @@ export interface OutfitLayer {
   garment: Garment;
 }
 
+export interface WardrobeGraphScore {
+  compatibilityScore: number; // 0 - 100 (color, silhouette, pattern compatibility)
+  weatherScore: number;       // 0 - 100 (CLO thermal match)
+  occasionScore: number;      // 0 - 100 (formality & dress code match)
+  preferenceScore: number;    // 0 - 100 (user liked aesthetics & favorite pieces)
+  rotationScore: number;      // 0 - 100 (boosts pieces unworn >14 days)
+  totalScore: number;         // Weighted aggregate match score
+}
+
 export interface Outfit {
   id: string;
   user_id: string;
@@ -205,12 +433,13 @@ export interface Outfit {
   garment_ids: string[];
   layers: OutfitLayer[];
   occasion: string;
-  context_query?: string;
+  context_query?: string; // "I'M GOING HERE" dynamic context (e.g. "College presentation", "Date ❤️")
   weather_at_gen?: WeatherData;
   total_clo: number;
   color_harmony: ColorHarmonyResult;
   formality_score: number;
   styling_notes: string;
+  wardrobe_graph_score?: WardrobeGraphScore;
   was_worn?: boolean;
   worn_at?: string;
   user_rating?: number;
@@ -321,4 +550,14 @@ export interface CompatibilityCheckResult {
   clo_score: number;
   issues: string[];
   suggestions: string[];
+}
+
+export interface WardrobeAnalytics {
+  totalItems: number;
+  colorDistribution: { name: string; hex: string; percentage: number }[];
+  topsToBottomsRatio: { tops: number; bottoms: number; ratio: string };
+  unwornOver30Days: number;
+  neutralityPercentage: number;
+  avgCostPerWear: number;
+  totalInvestment: number;
 }

@@ -1,71 +1,133 @@
-# 🌶️ SYLVIE Fashion Ontology & Styling Science Reference
+# 🌶️ SYLVIE: Computational Fashion Ontology & Wardrobe Graph Architecture
 
-The Sylvie Fashion Ontology provides a structured, computational representation of garments, body silhouettes, thermal dynamics, and color harmony.
-
----
-
-## 1. Garment Classification Schema
-
-Every piece of clothing in Sylvie is modeled with 4 distinct attribute layers:
-
-### A. Physical Attributes
-- **Fit**: `ultra_slim`, `slim`, `fitted`, `regular`, `relaxed`, `loose`, `oversized`, `boxy`, `draped`
-- **Sleeve**: `sleeveless`, `cap`, `short`, `elbow`, `three_quarter`, `long`
-- **Neckline**: `crew`, `v_neck`, `scoop`, `boat`, `square`, `turtleneck`, `hooded`, `mandarin`, `collar`, `polo`, `henley`
-- **Rise**: `low`, `mid`, `high`, `ultra_high`
-- **Silhouette**: `straight`, `tapered`, `flared`, `boxy`, `relaxed`, `fitted`, `wide_leg`, `cargo`
-
-### B. Visual Attributes
-- **Dominant Color**: Exact Hex code, English name, and normalized HSL coordinate `{ h: 0-360, s: 0-100, l: 0-100 }`
-- **Temperature**: `warm` (hues 0–70° & 320–360°), `cool` (hues 140–280°), or `neutral` (saturation < 15%)
-- **Pattern**: `solid`, `horizontal_stripe`, `vertical_stripe`, `plaid`, `check`, `floral`, `geometric`, `graphic`, `camo`, `tie_dye`, `polka_dot`
-
-### C. Material & Fabric
-- **Fiber**: `cotton`, `denim`, `linen`, `wool`, `silk`, `polyester`, `nylon`, `leather`
-- **Fabric Construction**: `jersey`, `twill`, `corduroy`, `flannel`, `canvas`, `mesh`, `waffle`
-- **Weight**: `lightweight`, `medium`, `heavy`
-
-### D. Semantic & Layering Role
-- **Formality Score**: Continuous 0.0 to 10.0 scale (0 = gym sweatpants, 10 = black tie tux)
-- **Layering Role**: `base`, `mid`, `outer`, `standalone`
-- **Outfit Role**: `foundation` (60%), `statement` (30%), `accent` (10%)
+> **Research Contribution**: A hierarchical, uncertainty-aware computational fashion ontology converting raw visual garment properties into contextual semantics, environmental equilibrium, and personalized graph recommendations.
 
 ---
 
-## 2. ISO 7730 Thermal CLO Reference Table
+## 1. The 37-Dimension Master Taxonomy
 
-One CLO is defined as the thermal insulation required to keep a sedentary person comfortable at 21°C (70°F).
+Unlike naive chatbot wrappers that classify clothing as flat strings (`type = "t-shirt"`), Sylvie models each piece of apparel across **37 orthogonal dimensions**:
 
-| Garment Class | Piece | Typical CLO |
-|---|---|---|
-| Top | Short Sleeve Crewneck Tee | 0.08 |
-| Top | Long Sleeve Tee | 0.20 |
-| Top | Formal Oxford Shirt | 0.25 |
-| Top | Knit Merino Sweater | 0.32 |
-| Bottom | Raw Denim Jeans | 0.28 |
-| Bottom | Cotton Chinos | 0.24 |
-| Bottom | Relaxed Shorts | 0.08 |
-| Outerwear | Denim / Canvas Jacket | 0.30 |
-| Outerwear | Tailored Blazer | 0.35 |
-| Outerwear | Heavy Hoodie | 0.34 |
-| Outerwear | Wool Overcoat | 0.55 |
-| Footwear | Leather Sneakers | 0.04 |
-| Footwear | Boots | 0.06 |
-
-### Optimal Target CLO by Temperature:
-- **> 35°C**: 0.30 CLO (Ultralight breathable shorts & tee)
-- **28 – 35°C**: 0.50 CLO (Light tee & breathable trousers)
-- **22 – 28°C**: 0.70 CLO (Standard casual layers)
-- **15 – 22°C**: 1.00 CLO (Mid-weight sweater or overshirt)
-- **8 – 15°C**: 1.45 CLO (Outer jacket + knitwear)
-- **< 8°C**: 2.00+ CLO (Multi-layer heavy outerwear)
+| No. | Dimension | Description | Observability Tier |
+|---|---|---|---|
+| **01** | **Garment Identity** | Class: `top`, `bottom`, `one_piece`, `outerwear`, `footwear`, `accessory`, `traditional_ethnic`, `activewear`, `sleepwear` | Level A (Direct) |
+| **02** | **Category & Subtype** | Hierarchical: Category → Subcategory → Specific garment (e.g. `Upperwear` → `Casual Top` → `Oversized Boxy Tee`) | Level A (Direct) |
+| **03** | **Structural Features** | Collar, neckline, sleeve, cuff, placket, seams, darts, pleats, hem, waistband, belt loops, lining | Level A (Direct) |
+| **04** | **Fit** | `ultra_slim`, `slim`, `fitted`, `regular`, `relaxed`, `loose`, `oversized`, `boxy`, `tailored`, `athletic`, `draped`, `bodycon`, `a_line` | Level B (Inferable) |
+| **05** | **Dimensions & Length** | Torso: `cropped`, `waist_length`, `hip_length`, `knee_length`, `floor_length`. Sleeve: `sleeveless`, `cap`, `short`, `elbow`, `3/4`, `long` | Level A (Direct) |
+| **06** | **Neckline / Collar** | `crew`, `v_neck`, `scoop`, `boat`, `square`, `sweetheart`, `halter`, `hooded`, `turtleneck`, `mock_neck`, `mandarin`, `collar`, `polo`, `notched_lapel` | Level A (Direct) |
+| **07** | **Closure** | `buttons`, `zipper`, `snaps`, `hooks`, `velcro`, `drawstring`, `tie`, `wrap`, `pullover`, `open_front`, `half_zip`, `full_zip` | Level A (Direct) |
+| **08** | **Closure Mechanism Details** | Double-breasted, hidden placket, reverse coil zip, magnetic | Level A (Direct) |
+| **09** | **Pockets** | Patch, welt, seam, cargo, kangaroo, flap, coin | Level A (Direct) |
+| **10** | **Hem** | Straight, curved/scoop, raw/distressed, stepped, ribbed, cuffed | Level A (Direct) |
+| **11** | **Waist / Rise** | `low`, `mid`, `high`, `ultra_high` | Level A (Direct) |
+| **12** | **Fabric & Fiber** | `cotton`, `linen`, `wool`, `silk`, `cashmere`, `hemp`, `bamboo`, `viscose`, `modal`, `polyester`, `nylon`, `leather`, `suede` | Level B (Inferable) |
+| **13** | **Fabric Construction** | `denim`, `jersey`, `corduroy`, `flannel`, `fleece`, `velvet`, `satin`, `chiffon`, `tweed`, `canvas`, `knit`, `rib_knit`, `waffle`, `oxford`, `poplin` | Level B (Inferable) |
+| **14** | **Material Properties** | Thickness, weight (GSM), stretch (`none`, `low`, `med`, `high`), breathability, insulation, water resistance, wind resistance, opacity, drape | Level B (Inferable) |
+| **15** | **Color Representation** | Dominant, secondary, and accent colors in normalized HSL coordinates `(H: 0-360°, S: 0-100%, L: 0-100%)` & Color Temperature | Level A (Direct) |
+| **16** | **Color Distribution (60-30-10)** | Dominant area %, Secondary area %, Accent area %, `solid`, `bicolor`, `multicolor`, `gradient`, `color_blocked`, `monochromatic` | Level A (Direct) |
+| **17** | **Pattern** | `solid`, `horizontal_stripe`, `vertical_stripe`, `plaid`, `check`, `gingham`, `tartan`, `houndstooth`, `polka_dot`, `floral`, `paisley`, `camo`, `tie_dye`, `graphic` | Level A (Direct) |
+| **18** | **Pattern Characteristics** | Scale (`micro`, `small`, `medium`, `large`), density (`low`, `med`, `high`), contrast (`low`, `med`, `high`), symmetry, direction | Level B (Inferable) |
+| **19** | **Surface Texture** | `smooth`, `ribbed`, `knit`, `woven`, `rough`, `fuzzy`, `crinkled`, `pleated`, `quilted`, `embossed`, `metallic`, `leather_like`, `waffle` | Level B (Inferable) |
+| **20** | **Finish** | `matte`, `gloss`, `satin`, `washed`, `distressed`, `faded`, `raw`, `coated`, `waxed`, `brushed`, `stonewashed`, `acid_washed` | Level B (Inferable) |
+| **21** | **Graphics & Embellishments** | Minimal embroidery, screenprint, appliqué, chenille patch, tonal logo, typography, distressed tear | Level A (Direct) |
+| **22** | **Formality Score** | Continuous 0.0 to 10.0 scale (0.0 = Beachwear, 2.0 = Casual, 4.0 = Smart Casual, 6.0 = Business Casual, 8.0 = Formal, 10.0 = Black Tie) | Level B (Inferable) |
+| **23** | **Aesthetic Probabilities** | Probabilistic vector over styles: Streetwear (0.85), Minimalist (0.60), Old Money (0.20), Techwear (0.15) | Level C (Context) |
+| **24** | **Occasions** | `College`, `Office`, `First Date 💕`, `Night Out / Party 🌙`, `Hackathon ⚡`, `Wedding`, `Airport / Travel`, `Weekend Casual` | Level C (Context) |
+| **25** | **Season Suitability** | `spring`, `summer`, `monsoon`, `autumn`, `winter`, `all_season` (and Indian specific: `hot_dry`, `hot_humid`, `monsoon`, `mild`, `cool`, `cold`) | Level C (Context) |
+| **26** | **Thermal CLO Value** | ISO 7730 calibrated thermal resistance index (0.04 to 0.70 per piece; target total 0.30 to 2.00) | Level B (Inferable) |
+| **27** | **Layering Hierarchy Role** | `base` (against skin), `mid` (insulating knit/hoodie), `outer` (shell/jacket), `standalone`, `layerable`, `non_layerable` | Level C (Context) |
+| **28** | **Outfit Semantic Role** | `foundation` (60% canvas), `statement` (30% focal contrast), `accent` (10% pop), `neutralizer`, `transition` | Level C (Context) |
+| **29** | **Body & Proportion Effect** | `vertical_emphasis`, `horizontal_emphasis`, `shoulder_emphasis`, `waist_emphasis`, `leg_lengthening`, `torso_lengthening`, `oversized_volume` | Level B (Inferable) |
+| **30** | **Cultural & Regional Style** | Western, Indian Ethnic (Handloom Kurta, Nehru Jacket, Bandhgala, Saree, Dhoti, Sherwani), East Asian (Kimono, Hanbok), Middle Eastern | Level C (Context) |
+| **31** | **Cultural Formality** | Everyday traditional, festive casual, wedding ceremonial, regional formal | Level C (Context) |
+| **32** | **Color Psychology & Perception** | Calibrated affective probabilities: `calm`, `energetic`, `authoritative`, `playful`, `serious`, `luxurious`, `youthful`, `mature` | Level C (Context) |
+| **33** | **Combinability & Node Degree** | Wardrobe graph degree centrality measuring how many existing pieces this item harmonizes with | Level C (Context) |
+| **34** | **User Preferences & Sentiments** | `liked`, `disliked`, `favorite`, `never_wear`, `user_rating`, `user_custom_tags` | Level D (User) |
+| **35** | **Wardrobe Physical State** | `clean`, `dirty`, `needs_washing`, `drying`, `ironed`, `wrinkled`, `damaged`, `repair_needed`, `missing`, `stored`, `available` | Level D (User) |
+| **36** | **Wear History & Economics** | Purchase price, date added, wear count, last worn timestamp, days since worn, calculated **Cost-Per-Wear (CPW)** | Level D (User) |
+| **37** | **AI Confidence & Provenance** | Per-attribute confidence scores with provenance tracking and failure prevention tiering | System Meta |
 
 ---
 
-## 3. Color Harmony Engine & The 60-30-10 Rule
+## 2. Observability Hierarchy & Failure Prevention
 
-Sylvie evaluates color harmony by calculating circular angular differences ($\Delta \theta$) between garment hues on the color wheel:
-1. **Analogous ($\Delta \theta \le 45^\circ$)**: Cohesive tonal flow without abrupt chromatic contrast.
-2. **Complementary ($150^\circ \le \Delta \theta \le 210^\circ$)**: High energy statement pairing.
-3. **Monochromatic ($\Delta \theta \le 25^\circ$, differing Lightness $L$)**: Runway minimalism with rich textural interplay.
-4. **Neutral Accent**: 90% neutral foundation (Charcoal, Navy, Cream) with a vibrant 10% accent (Chili Red, Gold, Amber).
+To eliminate silent AI hallucinations and maintain scientific defensibility, every attribute is classified into an **Observability Level**:
+
+```
+                       📸 USER PHOTO
+                             │
+                             ▼
+                    INSTANCE SEGMENTATION
+                      YOLOv8 / SAM
+                             │
+                             ▼
+                   ┌───────────────────┐
+                   │ GARMENT DETECTION │
+                   └───────────────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              ▼              ▼              ▼
+          LEVEL A        LEVEL B        LEVEL C / D
+          Direct        Inferable        Context & User
+       (Color, Class) (Fit, Material)  (Occasion, Rating)
+              │              │              │
+              └──────────────┼──────────────┘
+                             ▼
+                    CANONICAL ONTOLOGY
+                             │
+                   ┌─────────┴─────────┐
+                   ▼                   ▼
+              POSTGRESQL           VECTOR DB
+             (Attributes)         (Embeddings)
+```
+
+### Action Tiers by Confidence Threshold:
+- **Confidence $\ge 0.90$ (Auto-Accept)**: Direct ingestion into the wardrobe graph without interrupting the user.
+- **Confidence $0.60 \le c < 0.90$ (User Confirmation Required)**: The UI displays an interactive `"Is this correct?"` review card with one-tap modifier chips (e.g. `Oversized ▼` $\rightarrow$ `Regular`, `Cotton ▼` $\rightarrow$ `Polyester`).
+- **Confidence $< 0.60$ (Explicit Prompt)**: The system prompts the user to identify the attribute directly, preventing corrupt graph edges.
+
+---
+
+## 3. Wardrobe Graph Recommendation Synergy Formula
+
+When a user asks **"WHAT DO I WEAR?"** or inputs **"I'M GOING HERE"**, Sylvie executes multi-objective graph optimization over all valid `(Top, Bottom, Footwear, [Outerwear])` tuples:
+
+$$\text{Total Synergy Score} = (S_{\text{compat}} \times 0.30) + (S_{\text{weather}} \times 0.25) + (S_{\text{occasion}} \times 0.20) + (S_{\text{pref}} \times 0.15) + (S_{\text{rotation}} \times 0.10)$$
+
+Where:
+1. **$S_{\text{compat}}$ (Color & Silhouette Compatibility)**:
+   - Evaluates angular hue distance $\Delta \theta$ in HSL space for Analogous ($\le 45^\circ$), Complementary ($150^\circ - 210^\circ$), or Monochromatic harmonies.
+   - Enforces the **60-30-10 rule** (60% base canvas, 30% focal structure, 10% accent).
+   - Penalizes silhouette volume clashes (e.g. oversized boxy top + skinny tapered bottom without grounding footwear).
+2. **$S_{\text{weather}}$ (ISO 7730 CLO Thermal Equilibrium)**:
+   - Compares total outfit insulation against the target CLO derived from ambient temperature, feels-like temperature, humidity, and wind speed:
+     $$S_{\text{weather}} = \max(50.0, 100.0 - (|\text{CLO}_{\text{total}} - \text{CLO}_{\text{target}}| \times 75.0))$$
+3. **$S_{\text{occasion}}$ (Formality & Dress Code Alignment)**:
+   - Matches average outfit formality (0.0 to 10.0 continuous scale) against the context preset target formality (e.g. College Presentation = 7.0, Hackathon = 2.5, First Date = 5.5).
+4. **$S_{\text{pref}}$ (User Preference)**:
+   - Weights favorite garments, preferred aesthetics, and skin tone undertone harmony.
+5. **$S_{\text{rotation}}$ (Wardrobe Rotation & Anti-Fatigue)**:
+   - Boosts garments with high `days_since_worn` ($>14$ days) to prevent wardrobe stagnation and maximize Cost-Per-Wear ROI.
+
+---
+
+## 4. Laundry State & Physical Availability Filtering
+
+Before scoring combinations, the engine applies hard constraint filtering:
+- Pieces with `clean_status == 'dirty'`, `'needs_washing'`, or `'drying'` are **strictly excluded**.
+- This guarantees the system will never recommend a great outfit whose key piece is sitting in the laundry basket.
+
+---
+
+## 5. Indian Climate & Cultural Adaptation
+
+Sylvie integrates custom climate rules tailored for South Asian weather patterns:
+- **Hot & Dry (32–45°C)**: Target 0.30 CLO, prioritizing open-weave cottons, linen, and khadi.
+- **Hot & Humid (28–38°C)**: Target 0.40 CLO, prioritizing high-breathability seersucker and muslin.
+- **Monsoon (24–32°C)**: Target 0.55 CLO, prioritizing quick-drying synthetic blends and water-resistant finishes.
+- **Mild (18–26°C)**: Target 0.70 CLO, standard denim twills and poplins.
+- **Cool (12–18°C)**: Target 1.10 CLO, corduroy and light wool blends.
+- **Cold (3–12°C)**: Target 1.60 CLO, layered cashmere, heavy knits, and down outerwear.
+
+Native recognition for Indian ethnic garments (Short Kurta, Long Kurta, Nehru Jacket, Bandhgala, Saree, Lehenga, Dhoti) ensures seamless cultural formality modeling.

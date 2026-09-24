@@ -114,6 +114,53 @@ def analyze_garment_pipeline(image_base64: str, class_hint: str = None) -> Garme
         occasions = ["College", "Casual", "Hangout"]
         aesthetics = {"streetwear": 0.85, "minimalist": 0.60}
 
+    confidence_dict = {
+        "dominant_color_hex": 0.99,
+        "category": 0.96,
+        "garment_class": 0.98,
+        "fit": 0.88,
+        "formality_score": 0.84,
+        "primary_fiber": 0.78,
+        "texture": 0.82,
+        "clo_value": 0.91,
+        "aesthetic_weights": 0.85,
+        "occasions": 0.86,
+    }
+
+    observability_map = {
+        "dominant_color_hex": "level_a",
+        "category": "level_a",
+        "garment_class": "level_a",
+        "primary_fiber": "level_b",
+        "fit": "level_b",
+        "texture": "level_b",
+        "formality_score": "level_b",
+        "clo_value": "level_b",
+        "aesthetic_weights": "level_c",
+        "occasions": "level_c",
+    }
+
+    action_tiers = {}
+    for key, conf in confidence_dict.items():
+        if conf >= 0.90:
+            action_tiers[key] = "auto_accept"
+        elif conf >= 0.60:
+            action_tiers[key] = "confirm_with_user"
+        else:
+            action_tiers[key] = "ask_user"
+
+    # Color psychology inference based on temperature and lightness
+    lum = hsl.get("l", 50)
+    is_warm = temp == "warm"
+    psychology = {
+        "calm": 0.85 if not is_warm and lum < 60 else 0.35,
+        "energetic": 0.90 if is_warm and lum > 40 else 0.25,
+        "authoritative": 0.88 if lum < 35 else 0.20,
+        "playful": 0.75 if lum > 65 and hsl.get("s", 50) > 40 else 0.15,
+        "luxurious": 0.80 if (lum < 30 or (is_warm and lum > 75)) else 0.30,
+        "serious": 0.92 if lum < 25 else 0.22,
+    }
+
     return GarmentAttributesModel(
         garment_class=g_class,
         category=category,
@@ -133,11 +180,15 @@ def analyze_garment_pipeline(image_base64: str, class_hint: str = None) -> Garme
         layering_role=layering,
         outfit_role="foundation",
         clo_value=clo,
-        ai_confidence={
-            "category": 0.96,
-            "color": 0.99,
-            "fit": 0.88,
-            "formality": 0.84,
-            "material": 0.80
-        }
+        color_distribution={
+            "rule": "60_30_10",
+            "dominant_area_pct": 70,
+            "secondary_area_pct": 20,
+            "accent_area_pct": 10,
+        },
+        color_psychology=psychology,
+        ai_confidence=confidence_dict,
+        observability_levels=observability_map,
+        action_tiers=action_tiers,
     )
+

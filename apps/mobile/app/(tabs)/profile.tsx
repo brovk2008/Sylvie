@@ -108,10 +108,10 @@ export default function ProfileScreen() {
             activeOpacity={0.8}
             style={styles.menuItem}
           >
-            <div>
+            <View>
               <Text style={styles.menuItemTitle}>Skin Tone Matrix</Text>
               <Text style={styles.menuItemSub}>Code: {skinToneCode || 'ST19'}</Text>
-            </div>
+            </View>
             <Text style={styles.arrow}>&rarr;</Text>
           </TouchableOpacity>
 
@@ -120,10 +120,10 @@ export default function ProfileScreen() {
             activeOpacity={0.8}
             style={styles.menuItem}
           >
-            <div>
+            <View>
               <Text style={styles.menuItemTitle}>Body Silhouette</Text>
               <Text style={styles.menuItemSub}>Formality Level: {formalityLevel}/10</Text>
-            </div>
+            </View>
             <Text style={styles.arrow}>&rarr;</Text>
           </TouchableOpacity>
 
@@ -132,10 +132,10 @@ export default function ProfileScreen() {
             activeOpacity={0.8}
             style={styles.menuItem}
           >
-            <div>
+            <View>
               <Text style={styles.menuItemTitle}>Retake Style Game</Text>
               <Text style={styles.menuItemSub}>Reset preferences & discover new genres</Text>
-            </div>
+            </View>
             <Text style={styles.arrow}>&rarr;</Text>
           </TouchableOpacity>
         </View>

@@ -1,0 +1,316 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SylvieMasterFashionOntology",
+  "description": "Hierarchical, uncertainty-aware 37-category computational fashion ontology for garment representation, observability classification, and outfit graph reasoning.",
+  "type": "object",
+  "required": [
+    "garment_class",
+    "category",
+    "fit",
+    "dominant_color_hex",
+    "dominant_color_name",
+    "dominant_hsl",
+    "color_temperature",
+    "pattern",
+    "texture",
+    "primary_fiber",
+    "formality_score",
+    "aesthetic_weights",
+    "occasions",
+    "seasons",
+    "layering_role",
+    "outfit_role",
+    "clo_value"
+  ],
+  "properties": {
+    "garment_class": {
+      "type": "string",
+      "enum": [
+        "top",
+        "bottom",
+        "one_piece",
+        "outerwear",
+        "footwear",
+        "accessory",
+        "traditional_ethnic",
+        "activewear",
+        "sleepwear",
+        "swimwear",
+        "underwear"
+      ],
+      "description": "01. Basic Garment Identity Class"
+    },
+    "category": {
+      "type": "string",
+      "description": "02. Garment Category & Specific Type"
+    },
+    "subcategory": {
+      "type": "string",
+      "description": "Specific sub-classification"
+    },
+    "fit": {
+      "type": "string",
+      "enum": [
+        "ultra_slim",
+        "slim",
+        "fitted",
+        "regular",
+        "relaxed",
+        "loose",
+        "oversized",
+        "boxy",
+        "tailored",
+        "athletic",
+        "compression",
+        "draped",
+        "bodycon",
+        "a_line"
+      ],
+      "description": "04. Fit & Silhouette dimension"
+    },
+    "length_torso": {
+      "type": "string",
+      "enum": [
+        "cropped",
+        "waist_length",
+        "hip_length",
+        "mid_thigh",
+        "knee_length",
+        "calf_length",
+        "ankle_length",
+        "floor_length"
+      ],
+      "description": "05. Dimensions & Hem Length"
+    },
+    "sleeve": {
+      "type": "string",
+      "enum": [
+        "sleeveless",
+        "cap",
+        "short",
+        "elbow",
+        "three_quarter",
+        "long",
+        "extra_long"
+      ],
+      "description": "06. Sleeve length and type"
+    },
+    "neckline": {
+      "type": "string",
+      "enum": [
+        "crew",
+        "v_neck",
+        "scoop",
+        "boat",
+        "square",
+        "sweetheart",
+        "halter",
+        "hooded",
+        "turtleneck",
+        "mock_neck",
+        "mandarin",
+        "collar",
+        "polo",
+        "spread_collar",
+        "button_down",
+        "peter_pan",
+        "notched_lapel",
+        "shawl_collar",
+        "henley"
+      ],
+      "description": "07. Neckline / Collar classification"
+    },
+    "closure": {
+      "type": "string",
+      "enum": [
+        "buttons",
+        "zipper",
+        "snaps",
+        "hooks",
+        "velcro",
+        "drawstring",
+        "tie",
+        "wrap",
+        "pullover",
+        "open_front",
+        "half_zip",
+        "full_zip"
+      ],
+      "description": "08. Closure Mechanism"
+    },
+    "has_pockets": {
+      "type": "boolean",
+      "description": "09. Pockets presence"
+    },
+    "waist_rise": {
+      "type": "string",
+      "enum": ["low", "mid", "high", "ultra_high"],
+      "description": "11. Waist / Rise classification"
+    },
+    "primary_fiber": {
+      "type": "string",
+      "enum": [
+        "cotton",
+        "linen",
+        "wool",
+        "silk",
+        "cashmere",
+        "hemp",
+        "bamboo",
+        "rayon",
+        "viscose",
+        "modal",
+        "polyester",
+        "nylon",
+        "acrylic",
+        "elastane",
+        "leather",
+        "suede"
+      ],
+      "description": "12. Primary Fiber Composition"
+    },
+    "fabric_construction": {
+      "type": "string",
+      "enum": [
+        "denim",
+        "jersey",
+        "corduroy",
+        "flannel",
+        "fleece",
+        "velvet",
+        "satin",
+        "chiffon",
+        "georgette",
+        "tweed",
+        "canvas",
+        "knit",
+        "rib_knit",
+        "lace",
+        "mesh",
+        "terry",
+        "oxford",
+        "poplin"
+      ],
+      "description": "12. Fabric Construction"
+    },
+    "dominant_color_hex": {
+      "type": "string",
+      "pattern": "^#([A-Fa-f0-9]{6})$",
+      "description": "14. Dominant Color Hex"
+    },
+    "dominant_hsl": {
+      "type": "object",
+      "required": ["h", "s", "l"],
+      "properties": {
+        "h": { "type": "number", "minimum": 0, "maximum": 360 },
+        "s": { "type": "number", "minimum": 0, "maximum": 100 },
+        "l": { "type": "number", "minimum": 0, "maximum": 100 }
+      },
+      "description": "14. HSL Color Representation"
+    },
+    "color_distribution": {
+      "type": "object",
+      "properties": {
+        "rule": { "type": "string", "enum": ["60_30_10", "monochrome", "bicolor", "multicolor"] },
+        "dominant_area_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "secondary_area_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "accent_area_pct": { "type": "number", "minimum": 0, "maximum": 100 }
+      },
+      "description": "15. Color Distribution & 60-30-10 allocation"
+    },
+    "pattern": {
+      "type": "string",
+      "description": "16. Pattern classification"
+    },
+    "texture": {
+      "type": "string",
+      "description": "18. Surface Texture"
+    },
+    "formality_score": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 10.0,
+      "description": "21. Formality Continuous Scale (0.0=Beachwear, 10.0=Black Tie)"
+    },
+    "aesthetic_weights": {
+      "type": "object",
+      "additionalProperties": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+      "description": "22-23. Aesthetic & Style Probabilistic Vector"
+    },
+    "occasions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "24. Suitable Occasions"
+    },
+    "seasons": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "25. Suitable Climate Seasons"
+    },
+    "clo_value": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 3.0,
+      "description": "26. CLO Thermal Insulation Value"
+    },
+    "layering_role": {
+      "type": "string",
+      "enum": ["base", "mid", "outer", "standalone", "layerable", "non_layerable"],
+      "description": "23. Layering Hierarchy Role"
+    },
+    "outfit_role": {
+      "type": "string",
+      "enum": ["foundation", "statement", "accent", "neutralizer", "focal_point", "supporting", "transition"],
+      "description": "24. Outfit Semantic Role"
+    },
+    "clean_status": {
+      "type": "string",
+      "enum": [
+        "clean",
+        "dirty",
+        "needs_washing",
+        "drying",
+        "ironed",
+        "wrinkled",
+        "damaged",
+        "repair_needed",
+        "missing",
+        "packed",
+        "stored",
+        "available",
+        "unavailable"
+      ],
+      "description": "31. Wardrobe Physical & Availability State"
+    },
+    "wear_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "32. Wear History Frequency"
+    },
+    "cost_per_wear": {
+      "type": "number",
+      "description": "32. Cost Per Wear (Purchase Price / Total Wears)"
+    },
+    "ai_confidence": {
+      "type": "object",
+      "additionalProperties": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+      "description": "35. Per-Attribute AI Confidence"
+    },
+    "observability_levels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "enum": ["level_a", "level_b", "level_c", "level_d"]
+      },
+      "description": "36. Observability Level (A=Direct, B=Inferable, C=Context, D=User)"
+    },
+    "action_tiers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "enum": ["auto_accept", "confirm_with_user", "ask_user"]
+      },
+      "description": "37. Failure Prevention Action Tier (>0.90 Auto, 0.60-0.90 Confirm, <0.60 Ask)"
+    }
+  }
+}

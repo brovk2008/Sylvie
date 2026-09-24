@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  Modal,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import COLORS from '../../constants/colors';
@@ -15,11 +16,24 @@ import { useWardrobeStore } from '../../stores/wardrobeStore';
 import { useOutfitStore } from '../../stores/outfitStore';
 import { fetchWeather } from '../../lib/api';
 
+const GOING_HERE_OPTIONS = [
+  { id: 'college', label: 'College Presentation 🎓', occasion: 'College Presentation', notes: 'Structured & authoritative.' },
+  { id: 'date', label: 'Date ❤️', occasion: 'First Date 💕', notes: 'Effortlessly polished & tactile.' },
+  { id: 'hackathon', label: 'Hackathon ⚡', occasion: 'Hackathon Sprint', notes: 'Maximum mobility & breathability.' },
+  { id: 'party', label: 'Party Tonight 🌙', occasion: 'Night Out', notes: 'Statement contrast & bold silhouette.' },
+  { id: 'confident', label: 'Know What I\'m Doing 🕶️', occasion: 'High-Impact Focus', notes: 'Sharp monochrome with confident lines.' },
+  { id: 'casual', label: 'Casual ☕', occasion: 'Weekend Hangout', notes: 'Relaxed cotton essentials.' },
+];
+
 export default function HomeScreen() {
   const router = useRouter();
-  const { displayName, profileCompletionPct } = useUserStore();
+  const { displayName, profileCompletionPct, skinToneCode } = useUserStore();
   const { garments, markWorn } = useWardrobeStore();
   const { outfits, activeOutfitIndex, shuffleOutfit } = useOutfitStore();
+
+  const [selectedGoingHere, setSelectedGoingHere] = useState('college');
+  const [tryOnVisible, setTryOnVisible] = useState(false);
+  const [whooshNotice, setWhooshNotice] = useState<string | null>(null);
 
   const [weather, setWeather] = useState({
     temp_c: 28,
@@ -40,11 +54,27 @@ export default function HomeScreen() {
     Alert.alert('Logged Outfit 🌶️', 'Outfit marked as worn today! Your wardrobe wear count has been updated.');
   };
 
+  const handleShuffle = () => {
+    shuffleOutfit();
+    setWhooshNotice('WHOOSH! ⚡ New outfit synthesized from wardrobe graph.');
+    setTimeout(() => setWhooshNotice(null), 2500);
+  };
+
+  const handleSelectGoingHere = (opt: typeof GOING_HERE_OPTIONS[0]) => {
+    setSelectedGoingHere(opt.id);
+    shuffleOutfit();
+    setWhooshNotice(`WHOOSH! ⚡ Recalibrated fit for ${opt.label}`);
+    setTimeout(() => setWhooshNotice(null), 2500);
+  };
+
   // Calculations for stats
   const totalValue = garments.reduce((acc, g) => acc + (g.purchasePrice || 0), 0);
   const totalWears = garments.reduce((acc, g) => acc + g.wearCount, 0);
   const avgCostPerWear = totalWears > 0 ? Math.round(totalValue / totalWears) : 45;
   const unusedCount = garments.filter((g) => g.wearCount < 3).length;
+
+  const topsCount = garments.filter((g) => g.garmentClass === 'top').length || 4;
+  const bottomsCount = garments.filter((g) => g.garmentClass === 'bottom').length || 2;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -88,13 +118,42 @@ export default function HomeScreen() {
           </TouchableOpacity>
         )}
 
+        {/* "I'M GOING HERE" QUICK INTENT ENGINE */}
+        <View style={styles.goingHereSection}>
+          <Text style={styles.goingHereKicker}>🎯 I&apos;M GOING HERE</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chipsScroll}>
+            {GOING_HERE_OPTIONS.map((opt) => {
+              const active = selectedGoingHere === opt.id;
+              return (
+                <TouchableOpacity
+                  key={opt.id}
+                  onPress={() => handleSelectGoingHere(opt)}
+                  activeOpacity={0.8}
+                  style={[styles.chip, active && styles.chipActive]}
+                >
+                  <Text style={[styles.chipText, active && styles.chipTextActive]}>
+                    {opt.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
+
+        {/* WHOOSH SnackBar Notification */}
+        {whooshNotice && (
+          <View style={styles.whooshBanner}>
+            <Text style={styles.whooshText}>{whooshNotice}</Text>
+          </View>
+        )}
+
         {/* TODAY'S FIT HERO CARD */}
         <View style={styles.heroCard}>
           <View style={styles.heroCardHeader}>
-            <div>
+            <View>
               <Text style={styles.heroKicker}>TODAY&apos;S FIT</Text>
               <Text style={styles.heroTitle}>{currentOutfit.occasion}</Text>
-            </div>
+            </View>
             <View style={styles.matchBadge}>
               <Text style={styles.matchText}>{currentOutfit.matchScore}% Match</Text>
             </View>
@@ -110,6 +169,22 @@ export default function HomeScreen() {
             </Text>
           </View>
 
+          {/* Wardrobe Graph Synergy Badges */}
+          <View style={styles.graphPillRow}>
+            <View style={styles.graphPill}>
+              <Text style={styles.graphPillLabel}>COLOR HARMONY</Text>
+              <Text style={styles.graphPillVal}>94% (60-30-10)</Text>
+            </View>
+            <View style={styles.graphPill}>
+              <Text style={styles.graphPillLabel}>ROTATION</Text>
+              <Text style={styles.graphPillVal}>+18d Unworn</Text>
+            </View>
+            <View style={styles.graphPill}>
+              <Text style={styles.graphPillLabel}>LAUNDRY</Text>
+              <Text style={styles.graphPillVal}>100% Clean</Text>
+            </View>
+          </View>
+
           {/* Garment Layer Stack */}
           <View style={styles.layersContainer}>
             {currentOutfit.layers.map((layer, idx) => (
@@ -118,10 +193,10 @@ export default function HomeScreen() {
                   <View
                     style={[styles.colorSwatch, { backgroundColor: layer.colorHex }]}
                   />
-                  <div>
+                  <View>
                     <Text style={styles.layerName}>{layer.name}</Text>
                     <Text style={styles.layerRole}>{layer.role}</Text>
-                  </div>
+                  </View>
                 </View>
                 <Text style={styles.layerClo}>{layer.clo} CLO</Text>
               </View>
@@ -146,7 +221,15 @@ export default function HomeScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={shuffleOutfit}
+              onPress={() => setTryOnVisible(true)}
+              activeOpacity={0.8}
+              style={styles.tryOnButton}
+            >
+              <Text style={styles.tryOnButtonText}>✨ Try It On</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={handleShuffle}
               activeOpacity={0.8}
               style={styles.shuffleButton}
             >
@@ -185,21 +268,42 @@ export default function HomeScreen() {
           ))}
         </ScrollView>
 
-        {/* ANALYTICS PEEK */}
+        {/* CLOSET INTELLIGENCE & STYLE ANALYTICS */}
         <Text style={[styles.sectionTitle, { marginTop: 24, marginBottom: 12 }]}>
-          Closet Intelligence
+          Closet Intelligence &amp; Style Analytics
         </Text>
+
+        {/* Color Palette Spectrum Bar */}
+        <View style={styles.analyticsCard}>
+          <Text style={styles.analyticsHeading}>WARDROBE COLOR SPECTRUM</Text>
+          <View style={styles.spectrumBar}>
+            <View style={[styles.spectrumSegment, { flex: 32, backgroundColor: '#1C0A08' }]} />
+            <View style={[styles.spectrumSegment, { flex: 24, backgroundColor: '#1A365D' }]} />
+            <View style={[styles.spectrumSegment, { flex: 18, backgroundColor: '#FDF5E6' }]} />
+            <View style={[styles.spectrumSegment, { flex: 14, backgroundColor: '#E83B2E' }]} />
+            <View style={[styles.spectrumSegment, { flex: 12, backgroundColor: '#556B2F' }]} />
+          </View>
+          <View style={styles.spectrumLabels}>
+            <Text style={styles.spectrumKey}>Black 32%</Text>
+            <Text style={styles.spectrumKey}>Navy 24%</Text>
+            <Text style={styles.spectrumKey}>Cream 18%</Text>
+            <Text style={styles.spectrumKey}>Chili 14%</Text>
+            <Text style={styles.spectrumKey}>Olive 12%</Text>
+          </View>
+        </View>
+
+        {/* Metrics Grid */}
         <View style={styles.statsRow}>
           <View style={styles.statCard}>
-            <Text style={styles.statLabel}>ITEMS</Text>
-            <Text style={styles.statValue}>{garments.length}</Text>
-            <Text style={styles.statSub}>Total pieces</Text>
+            <Text style={styles.statLabel}>BALANCE</Text>
+            <Text style={styles.statValue}>{topsCount}:{bottomsCount}</Text>
+            <Text style={styles.statSub}>Tops : Bottoms</Text>
           </View>
 
           <View style={styles.statCard}>
             <Text style={styles.statLabel}>AVG CPW</Text>
             <Text style={styles.statValue}>₹{avgCostPerWear}</Text>
-            <Text style={styles.statSub}>Per wear</Text>
+            <Text style={styles.statSub}>Cost per wear</Text>
           </View>
 
           <View style={styles.statCard}>
@@ -207,10 +311,69 @@ export default function HomeScreen() {
             <Text style={[styles.statValue, { color: COLORS.chili[400] }]}>
               {unusedCount}
             </Text>
-            <Text style={styles.statSub}>&lt; 3 wears</Text>
+            <Text style={styles.statSub}>&gt;14d unworn</Text>
           </View>
         </View>
       </ScrollView>
+
+      {/* VIRTUAL TRY-ON MODAL */}
+      <Modal
+        visible={tryOnVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setTryOnVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.tryOnCard}>
+            <View style={styles.tryOnHeader}>
+              <View>
+                <Text style={styles.tryOnKicker}>AI VIRTUAL TRY-ON</Text>
+                <Text style={styles.tryOnTitle}>{currentOutfit.occasion}</Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => setTryOnVisible(false)}
+                style={styles.modalCloseBtn}
+              >
+                <Text style={styles.modalCloseText}>✕</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Virtual Simulation Silhouette Preview */}
+            <View style={styles.simulationBox}>
+              <View style={styles.simAvatar}>
+                <Text style={styles.simAvatarEmoji}>🧍</Text>
+              </View>
+              <View style={styles.simBadge}>
+                <Text style={styles.simBadgeText}>94% Color Harmony · {skinToneCode || 'ST19'}</Text>
+              </View>
+              <Text style={styles.simAdvice}>
+                The oversized silhouette creates a relaxed drop-shoulder drape while the straight-fit denim maintains grounded vertical proportion.
+              </Text>
+            </View>
+
+            {/* Layer Checklist */}
+            <View style={styles.tryOnLayers}>
+              {currentOutfit.layers.map((l, i) => (
+                <View key={i} style={styles.tryOnLayerRow}>
+                  <View style={[styles.layerDot, { backgroundColor: l.colorHex }]} />
+                  <Text style={styles.tryOnLayerName}>{l.name} ({l.role})</Text>
+                </View>
+              ))}
+            </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                setTryOnVisible(false);
+                handleWearThis();
+              }}
+              activeOpacity={0.8}
+              style={styles.confirmTryOnBtn}
+            >
+              <Text style={styles.confirmTryOnText}>Looks Great! Wear This Today 🌶️</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -263,70 +426,114 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
-    borderRadius: 20,
     backgroundColor: COLORS.dark.surface,
     borderWidth: 1,
-    borderColor: COLORS.chili[800],
+    borderColor: COLORS.chili[500],
+    borderRadius: 14,
+    padding: 16,
     marginBottom: 20,
   },
   completionLeft: {
     flex: 1,
-    marginRight: 16,
+    marginRight: 12,
   },
   completionTitle: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
+    marginBottom: 4,
   },
   completionSubtitle: {
-    fontSize: 11,
-    color: COLORS.spice.parchment,
-    opacity: 0.75,
-    marginTop: 2,
-    marginBottom: 8,
+    fontSize: 12,
+    color: COLORS.dark.muted,
+    marginBottom: 10,
   },
   progressBarBg: {
-    height: 4,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: COLORS.dark.elevated,
-    borderRadius: 2,
     overflow: 'hidden',
   },
   progressBarFill: {
     height: '100%',
+    borderRadius: 3,
     backgroundColor: COLORS.chili[500],
   },
   completionPct: {
-    fontSize: 18,
-    fontFamily: 'monospace',
+    fontSize: 22,
     fontWeight: '800',
+    color: COLORS.chili[400],
+  },
+  goingHereSection: {
+    marginBottom: 16,
+  },
+  goingHereKicker: {
+    fontSize: 12,
+    fontFamily: 'monospace',
     color: COLORS.spice.gold,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    marginBottom: 8,
+  },
+  chipsScroll: {
+    flexDirection: 'row',
+  },
+  chip: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    backgroundColor: COLORS.dark.surface,
+    borderWidth: 1,
+    borderColor: COLORS.dark.border,
+    marginRight: 8,
+  },
+  chipActive: {
+    backgroundColor: COLORS.chili[600],
+    borderColor: COLORS.chili[400],
+  },
+  chipText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: COLORS.dark.muted,
+  },
+  chipTextActive: {
+    color: '#FFFFFF',
+  },
+  whooshBanner: {
+    backgroundColor: COLORS.chili[900],
+    borderWidth: 1,
+    borderColor: COLORS.chili[500],
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    marginBottom: 14,
+  },
+  whooshText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    textAlign: 'center',
   },
   heroCard: {
     backgroundColor: COLORS.dark.surface,
-    borderRadius: 28,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: COLORS.dark.border,
     padding: 20,
-    borderWidth: 1.5,
-    borderColor: 'rgba(232, 59, 46, 0.4)',
-    shadowColor: COLORS.chili[500],
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.25,
-    shadowRadius: 20,
-    elevation: 6,
     marginBottom: 24,
   },
   heroCardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   heroKicker: {
     fontSize: 11,
     fontFamily: 'monospace',
-    color: COLORS.spice.gold,
-    fontWeight: '800',
-    letterSpacing: 1.5,
+    color: COLORS.chili[400],
+    fontWeight: '700',
+    letterSpacing: 1,
   },
   heroTitle: {
     fontSize: 22,
@@ -335,131 +542,156 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   matchBadge: {
-    backgroundColor: 'rgba(201, 168, 38, 0.15)',
-    borderColor: 'rgba(201, 168, 38, 0.5)',
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 12,
+    backgroundColor: 'rgba(232, 59, 46, 0.15)',
     borderWidth: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
+    borderColor: COLORS.chili[500],
   },
   matchText: {
-    color: COLORS.spice.gold,
     fontSize: 12,
     fontWeight: '800',
-    fontFamily: 'monospace',
+    color: COLORS.chili[400],
   },
   weatherTagRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.dark.border,
-    marginBottom: 14,
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 12,
   },
   weatherTag: {
-    fontSize: 11,
-    fontFamily: 'monospace',
-    color: COLORS.spice.parchment,
-    opacity: 0.8,
+    fontSize: 13,
+    color: COLORS.dark.muted,
+    fontWeight: '500',
   },
   cloTag: {
-    fontSize: 11,
+    fontSize: 13,
+    color: COLORS.spice.gold,
+    fontWeight: '600',
+  },
+  graphPillRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: COLORS.dark.elevated,
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 16,
+  },
+  graphPill: {
+    alignItems: 'center',
+  },
+  graphPillLabel: {
+    fontSize: 9,
     fontFamily: 'monospace',
-    color: COLORS.chili[400],
+    color: COLORS.dark.muted,
+    fontWeight: '700',
+  },
+  graphPillVal: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    marginTop: 2,
   },
   layersContainer: {
-    gap: 8,
-    marginBottom: 14,
+    backgroundColor: COLORS.dark.elevated,
+    borderRadius: 14,
+    padding: 12,
+    marginBottom: 16,
+    gap: 10,
   },
   layerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
-    borderRadius: 14,
-    backgroundColor: COLORS.dark.bg,
-    borderWidth: 1,
-    borderColor: COLORS.dark.border,
   },
   layerInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 12,
   },
   colorSwatch: {
-    width: 14,
-    height: 14,
-    borderRadius: 7,
+    width: 22,
+    height: 22,
+    borderRadius: 6,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.3)',
+    borderColor: 'rgba(255,255,255,0.15)',
   },
   layerName: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '700',
     color: '#FFFFFF',
   },
   layerRole: {
-    fontSize: 10,
-    fontFamily: 'monospace',
-    color: COLORS.spice.parchment,
-    opacity: 0.6,
+    fontSize: 11,
+    color: COLORS.dark.muted,
+    textTransform: 'capitalize',
   },
   layerClo: {
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: 'monospace',
-    color: COLORS.spice.parchment,
-    opacity: 0.7,
+    color: COLORS.dark.muted,
   },
   notesBox: {
-    backgroundColor: COLORS.dark.elevated,
+    backgroundColor: 'rgba(232, 59, 46, 0.08)',
+    borderRadius: 10,
     padding: 12,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: COLORS.dark.border,
-    marginBottom: 16,
+    borderLeftWidth: 3,
+    borderLeftColor: COLORS.chili[500],
+    marginBottom: 18,
   },
   notesText: {
-    fontSize: 12,
-    color: COLORS.spice.parchment,
+    fontSize: 13,
     fontStyle: 'italic',
+    color: COLORS.spice.parchment,
     lineHeight: 18,
   },
   heroActions: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 8,
   },
   wearButton: {
-    flex: 1.4,
+    flex: 2,
     backgroundColor: COLORS.chili[500],
     paddingVertical: 14,
-    borderRadius: 9999,
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: COLORS.chili[500],
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 10,
-    elevation: 4,
   },
   wearButtonText: {
-    color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '800',
+    color: '#FFFFFF',
   },
-  shuffleButton: {
-    flex: 1,
+  tryOnButton: {
+    flex: 2,
     backgroundColor: COLORS.dark.elevated,
+    borderWidth: 1,
+    borderColor: COLORS.spice.gold,
     paddingVertical: 14,
-    borderRadius: 9999,
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  tryOnButtonText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: COLORS.spice.gold,
+  },
+  shuffleButton: {
+    flex: 1.5,
+    backgroundColor: COLORS.dark.elevated,
     borderWidth: 1,
     borderColor: COLORS.dark.border,
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   shuffleButtonText: {
-    color: COLORS.spice.parchment,
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '700',
+    color: '#FFFFFF',
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -468,38 +700,37 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   sectionTitle: {
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: '800',
     color: '#FFFFFF',
   },
   viewAllText: {
-    fontSize: 12,
-    fontFamily: 'monospace',
-    color: COLORS.chili[400],
+    fontSize: 13,
     fontWeight: '700',
+    color: COLORS.chili[400],
   },
   recentScroll: {
     flexDirection: 'row',
   },
   miniGarmentCard: {
-    width: 110,
+    width: 105,
     backgroundColor: COLORS.dark.surface,
-    borderRadius: 18,
+    borderRadius: 12,
     padding: 10,
+    marginRight: 10,
     borderWidth: 1,
     borderColor: COLORS.dark.border,
-    marginRight: 10,
   },
   miniCardTop: {
-    height: 70,
-    borderRadius: 12,
-    backgroundColor: COLORS.dark.bg,
+    height: 55,
+    backgroundColor: COLORS.dark.elevated,
+    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
   },
   miniEmoji: {
-    fontSize: 32,
+    fontSize: 26,
   },
   miniName: {
     fontSize: 12,
@@ -510,7 +741,7 @@ const styles = StyleSheet.create({
   miniFooter: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    gap: 5,
   },
   miniDot: {
     width: 8,
@@ -518,10 +749,42 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   miniWorn: {
-    fontSize: 9,
+    fontSize: 10,
+    color: COLORS.dark.muted,
+  },
+  analyticsCard: {
+    backgroundColor: COLORS.dark.surface,
+    borderRadius: 14,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: COLORS.dark.border,
+    marginBottom: 12,
+  },
+  analyticsHeading: {
+    fontSize: 11,
     fontFamily: 'monospace',
-    color: COLORS.spice.parchment,
-    opacity: 0.6,
+    color: COLORS.dark.muted,
+    fontWeight: '700',
+    marginBottom: 8,
+  },
+  spectrumBar: {
+    height: 12,
+    borderRadius: 6,
+    overflow: 'hidden',
+    flexDirection: 'row',
+    marginBottom: 8,
+  },
+  spectrumSegment: {
+    height: '100%',
+  },
+  spectrumLabels: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  spectrumKey: {
+    fontSize: 10,
+    color: COLORS.dark.muted,
+    fontWeight: '600',
   },
   statsRow: {
     flexDirection: 'row',
@@ -530,16 +793,17 @@ const styles = StyleSheet.create({
   statCard: {
     flex: 1,
     backgroundColor: COLORS.dark.surface,
-    borderRadius: 18,
+    borderRadius: 14,
     padding: 14,
     borderWidth: 1,
     borderColor: COLORS.dark.border,
+    alignItems: 'center',
   },
   statLabel: {
-    fontSize: 9,
+    fontSize: 10,
     fontFamily: 'monospace',
-    color: COLORS.spice.parchment,
-    opacity: 0.7,
+    color: COLORS.dark.muted,
+    fontWeight: '700',
   },
   statValue: {
     fontSize: 20,
@@ -548,7 +812,121 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   statSub: {
-    fontSize: 10,
+    fontSize: 11,
     color: COLORS.dark.muted,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.85)',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  tryOnCard: {
+    backgroundColor: COLORS.dark.surface,
+    borderRadius: 24,
+    borderWidth: 1.5,
+    borderColor: COLORS.spice.gold,
+    padding: 20,
+  },
+  tryOnHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 16,
+  },
+  tryOnKicker: {
+    fontSize: 11,
+    fontFamily: 'monospace',
+    color: COLORS.spice.gold,
+    fontWeight: '700',
+    letterSpacing: 1,
+  },
+  tryOnTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#FFFFFF',
+    marginTop: 2,
+  },
+  modalCloseBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: COLORS.dark.elevated,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalCloseText: {
+    fontSize: 16,
+    color: '#FFFFFF',
+    fontWeight: '700',
+  },
+  simulationBox: {
+    backgroundColor: COLORS.dark.elevated,
+    borderRadius: 16,
+    padding: 16,
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  simAvatar: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: COLORS.dark.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  simAvatarEmoji: {
+    fontSize: 48,
+  },
+  simBadge: {
+    backgroundColor: 'rgba(201, 168, 38, 0.15)',
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: COLORS.spice.gold,
+    marginBottom: 8,
+  },
+  simBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: COLORS.spice.gold,
+  },
+  simAdvice: {
+    fontSize: 12,
+    color: COLORS.spice.parchment,
+    textAlign: 'center',
+    lineHeight: 18,
+  },
+  tryOnLayers: {
+    gap: 8,
+    marginBottom: 20,
+  },
+  tryOnLayerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  layerDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+  },
+  tryOnLayerName: {
+    fontSize: 13,
+    color: '#FFFFFF',
+    fontWeight: '600',
+  },
+  confirmTryOnBtn: {
+    backgroundColor: COLORS.chili[500],
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  confirmTryOnText: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#FFFFFF',
   },
 });

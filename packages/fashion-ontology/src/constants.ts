@@ -314,3 +314,149 @@ export const SKIN_TONES_40: SkinTone[] = [
   { code: 'ST39', name: 'Rich Ebony', hex: '#311304', fitzpatrick: 6, undertone: 'neutral', season: 'winter', complementary_colors: ['#FDF5E6', '#C9A826', '#E83B2E'], avoid_colors: ['#080808'] },
   { code: 'ST40', name: 'Pure Onyx Glow', hex: '#280E03', fitzpatrick: 6, undertone: 'cool', season: 'winter', complementary_colors: ['#FFFFFF', '#FF6B47', '#F1C40F'], avoid_colors: ['#000000'] },
 ];
+
+/**
+ * Observability Hierarchy (Research Contribution)
+ * Level A: Directly observable by CV
+ * Level B: Visually inferable with uncertainty
+ * Level C: Context-dependent (requires environment/activity knowledge)
+ * Level D: User-dependent (subjective taste & sentiment)
+ */
+export const OBSERVABILITY_CLASSIFICATION = {
+  level_a: [
+    'dominant_color_hex',
+    'dominant_hsl',
+    'secondary_color_hex',
+    'accent_color_hex',
+    'pattern',
+    'sleeve',
+    'length_torso',
+    'garment_class',
+    'category',
+    'has_pockets',
+    'neckline',
+    'closure',
+  ],
+  level_b: [
+    'primary_fiber',
+    'fabric_construction',
+    'texture',
+    'fit',
+    'silhouette',
+    'formality_score',
+    'weight',
+    'opacity',
+    'clo_value',
+    'finish',
+  ],
+  level_c: [
+    'occasions',
+    'seasons',
+    'aesthetic_weights',
+    'cultural_style',
+    'cultural_formality',
+    'layering_role',
+    'outfit_role',
+    'weather_temp_range_c',
+    'body_effect',
+  ],
+  level_d: [
+    'favorite',
+    'never_wear',
+    'user_rating',
+    'user_custom_tags',
+    'clean_status',
+    'purchase_price',
+  ],
+} as const;
+
+/**
+ * Confidence Action Thresholds for Quiet Failure Prevention
+ */
+export const CONFIDENCE_THRESHOLDS = {
+  AUTO_ACCEPT: 0.90,       // Directly accepted into wardrobe graph
+  CONFIRM_REQUIRED: 0.60,  // Show user confirmation card ("Is this correct?")
+  ASK_USER: 0.60,          // Below 0.60 -> ask user explicitly
+} as const;
+
+export function getConfidenceActionTier(confidence: number): 'auto_accept' | 'confirm_with_user' | 'ask_user' {
+  if (confidence >= CONFIDENCE_THRESHOLDS.AUTO_ACCEPT) return 'auto_accept';
+  if (confidence >= CONFIDENCE_THRESHOLDS.CONFIRM_REQUIRED) return 'confirm_with_user';
+  return 'ask_user';
+}
+
+/**
+ * Context Presets for "I'M GOING HERE" Engine
+ */
+export const CONTEXT_OCCASIONS_MAP: Record<string, {
+  targetFormality: number;
+  formalityRange: [number, number];
+  preferredAesthetics: string[];
+  recommendedLayers: string[];
+  vibeText: string;
+}> = {
+  'college_presentation': {
+    targetFormality: 7.0,
+    formalityRange: [6.0, 8.5],
+    preferredAesthetics: ['smart_casual', 'preppy', 'minimalist'],
+    recommendedLayers: ['shirt', 'trousers', 'blazer', 'loafers'],
+    vibeText: 'Structured, confident, and authoritative without feeling stuffy.',
+  },
+  'date': {
+    targetFormality: 5.5,
+    formalityRange: [4.5, 7.0],
+    preferredAesthetics: ['old_money', 'smart_casual', 'minimalist'],
+    recommendedLayers: ['knit_polo', 'tailored_trousers', 'clean_sneakers', 'jacket'],
+    vibeText: 'Effortlessly polished, tactile textures, and subtle charm.',
+  },
+  'hackathon': {
+    targetFormality: 2.5,
+    formalityRange: [1.5, 4.0],
+    preferredAesthetics: ['streetwear', 'techwear', 'athleisure'],
+    recommendedLayers: ['oversized_tee', 'cargo_pants', 'sneakers', 'hoodie'],
+    vibeText: 'Maximum comfort, breathable fabrics, and high mobility for late-night sprints.',
+  },
+  'party_night': {
+    targetFormality: 6.0,
+    formalityRange: [4.5, 8.0],
+    preferredAesthetics: ['streetwear', 'avant_garde', 'y2k'],
+    recommendedLayers: ['statement_jacket', 'dark_jeans', 'boots', 'minimal_jewelry'],
+    vibeText: 'High visual impact, rich contrast, and sleek silhouettes.',
+  },
+  'casual_hangout': {
+    targetFormality: 3.5,
+    formalityRange: [2.5, 5.0],
+    preferredAesthetics: ['minimalist', 'streetwear', 'bohemian'],
+    recommendedLayers: ['relaxed_tee', 'straight_jeans', 'sneakers'],
+    vibeText: 'Relaxed proportions, breathable cotton, and everyday ease.',
+  },
+  'job_interview': {
+    targetFormality: 8.5,
+    formalityRange: [7.5, 10.0],
+    preferredAesthetics: ['classic', 'smart_casual', 'old_money'],
+    recommendedLayers: ['formal_shirt', 'trousers', 'blazer', 'oxfords'],
+    vibeText: 'Impeccable lines, cohesive neutrals, and sharp professional gravitas.',
+  },
+};
+
+/**
+ * Indian Climate Seasons
+ */
+export const INDIAN_SEASONS = [
+  { id: 'hot_dry', name: 'Hot & Dry (Summer)', tempRange: [32, 45], cloTarget: 0.30, bestFabrics: ['cotton', 'linen', 'khadi'] },
+  { id: 'hot_humid', name: 'Hot & Humid (Coastal / Pre-Monsoon)', tempRange: [28, 38], cloTarget: 0.40, bestFabrics: ['cotton', 'muslin', 'seersucker'] },
+  { id: 'monsoon', name: 'Monsoon / Rainy', tempRange: [24, 32], cloTarget: 0.55, bestFabrics: ['quick_dry_nylon', 'treated_cotton'] },
+  { id: 'mild', name: 'Mild / Pleasant (Spring/Autumn)', tempRange: [18, 26], cloTarget: 0.70, bestFabrics: ['denim', 'cotton_twill', 'poplin'] },
+  { id: 'cool', name: 'Cool (Early Winter)', tempRange: [12, 18], cloTarget: 1.10, bestFabrics: ['corduroy', 'fleece', 'wool_blend'] },
+  { id: 'cold', name: 'Cold (North Indian Winter)', tempRange: [3, 12], cloTarget: 1.60, bestFabrics: ['cashmere', 'pure_wool', 'down'] },
+];
+
+/**
+ * 60-30-10 Color Allocation Rule
+ */
+export const COLOR_60_30_10 = {
+  dominant: { percentage: 60, role: 'Base canvas / Trousers / Outer shell', description: 'Sets the foundational visual tone' },
+  secondary: { percentage: 30, role: 'Top / Layering knit / Focal garment', description: 'Adds structural contrast and hue depth' },
+  accent: { percentage: 10, role: 'Footwear / Accessories / Cap / Jewelry', description: 'Draws the eye and completes the fit' },
+};
+

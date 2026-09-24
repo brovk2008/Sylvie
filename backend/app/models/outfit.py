@@ -11,6 +11,14 @@ class ColorHarmonyResultModel(BaseModel):
     accent_ratio: Optional[Dict[str, Any]] = None
     description: str
 
+class WardrobeGraphScoreModel(BaseModel):
+    compatibility_score: float
+    weather_score: float
+    occasion_score: float
+    preference_score: float
+    rotation_score: float
+    total_score: float
+
 class GarmentRef(BaseModel):
     id: str
     garment_class: str
@@ -23,6 +31,10 @@ class GarmentRef(BaseModel):
     custom_name: Optional[str] = None
     photo_front: Optional[str] = None
     photo_thumb: Optional[str] = None
+    wear_count: int = 0
+    days_since_worn: int = 14
+    favorite: bool = False
+    clean_status: str = "clean"
 
 class OutfitLayerModel(BaseModel):
     layer_type: str
@@ -38,6 +50,7 @@ class GeneratedOutfitModel(BaseModel):
     confidence: float = 0.92
     occasion: str
     weather_summary: Optional[str] = None
+    wardrobe_graph_score: Optional[WardrobeGraphScoreModel] = None
 
 class OutfitGenerationContext(BaseModel):
     occasion: str = "College"

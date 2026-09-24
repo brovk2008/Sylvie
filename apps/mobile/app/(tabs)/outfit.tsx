@@ -117,10 +117,10 @@ export default function OutfitGeneratorScreen() {
         {/* Outfit Result Card */}
         <View style={styles.resultCard}>
           <View style={styles.resultHeader}>
-            <div>
+            <View>
               <Text style={styles.resultKicker}>{currentOutfit.occasion}</Text>
               <Text style={styles.resultMatch}>{currentOutfit.matchScore}% Match Score</Text>
-            </div>
+            </View>
             <View style={styles.harmonyPill}>
               <Text style={styles.harmonyText}>{currentOutfit.harmonyType}</Text>
             </View>
@@ -134,14 +134,26 @@ export default function OutfitGeneratorScreen() {
                   <View
                     style={[styles.colorDot, { backgroundColor: layer.colorHex }]}
                   />
-                  <div>
+                  <View>
                     <Text style={styles.layerName}>{layer.name}</Text>
                     <Text style={styles.layerRole}>{layer.role}</Text>
-                  </div>
+                  </View>
                 </View>
                 <Text style={styles.layerClo}>{layer.clo} CLO</Text>
               </View>
             ))}
+          </View>
+
+          {/* Wardrobe Graph Node Linkage */}
+          <View style={styles.graphNodesContainer}>
+            <Text style={styles.graphNodesKicker}>WARDROBE GRAPH SYNERGY</Text>
+            <View style={styles.graphNodeRow}>
+              <Text style={styles.nodeBadge}>Top</Text>
+              <Text style={styles.nodeLine}>─── 96% HSL Harmony ───</Text>
+              <Text style={styles.nodeBadge}>Bottom</Text>
+              <Text style={styles.nodeLine}>─── 92% Silhouette ───</Text>
+              <Text style={styles.nodeBadge}>Footwear</Text>
+            </View>
           </View>
 
           {/* Thermal Insulation Check */}
@@ -461,5 +473,43 @@ const styles = StyleSheet.create({
     color: COLORS.spice.parchment,
     fontSize: 14,
     fontWeight: '700',
+  },
+  graphNodesContainer: {
+    backgroundColor: COLORS.dark.elevated,
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.06)',
+  },
+  graphNodesKicker: {
+    fontSize: 9,
+    fontFamily: 'monospace',
+    color: COLORS.spice.gold,
+    fontWeight: '800',
+    letterSpacing: 1,
+    marginBottom: 8,
+  },
+  graphNodeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  nodeBadge: {
+    backgroundColor: COLORS.dark.surface,
+    color: '#FFFFFF',
+    fontSize: 11,
+    fontWeight: '700',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: COLORS.dark.border,
+  },
+  nodeLine: {
+    fontSize: 9,
+    color: COLORS.dark.muted,
+    fontFamily: 'monospace',
+    paddingHorizontal: 4,
   },
 });

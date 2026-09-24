@@ -194,11 +194,36 @@ export default function AddGarmentScreen() {
         {/* STEP 4: Review & Confirm */}
         {step === 4 && (
           <View>
-            <Text style={styles.kicker}>STEP 4 · AI VERIFICATION</Text>
-            <Text style={styles.heading}>Review Extracted Attributes</Text>
+            <Text style={styles.kicker}>STEP 4 · AI VERIFICATION &amp; CONFIDENCE</Text>
+            <Text style={styles.heading}>Is this correct? 🧠</Text>
             <Text style={styles.subheading}>
-              Check the detected fields. Everything looks spot on!
+              Sylvie extracted these attributes with 96% confidence. You can modify any field to train your personal stylist preferences.
             </Text>
+
+            {/* Observability Hierarchy Card */}
+            <View style={styles.observabilityCard}>
+              <View style={styles.obsHeader}>
+                <Text style={styles.obsKicker}>OBSERVABILITY BREAKDOWN</Text>
+                <View style={styles.confidencePill}>
+                  <Text style={styles.confidencePillText}>96% Confidence (Auto-Accept)</Text>
+                </View>
+              </View>
+
+              <View style={styles.obsRow}>
+                <Text style={styles.obsLevelBadge}>Level A · Direct</Text>
+                <Text style={styles.obsText}>Class: {selectedClass} · Color: {colorHex} ({colorName})</Text>
+              </View>
+
+              <View style={styles.obsRow}>
+                <Text style={styles.obsLevelBadgeB}>Level B · Inferable</Text>
+                <Text style={styles.obsText}>Fit: {fit} · Fabric: {material} · CLO: 0.12</Text>
+              </View>
+
+              <View style={styles.obsRow}>
+                <Text style={styles.obsLevelBadgeC}>Level C · Context</Text>
+                <Text style={styles.obsText}>Aesthetic: Streetwear (0.85), Minimalist (0.60)</Text>
+              </View>
+            </View>
 
             <View style={styles.formContainer}>
               <View style={styles.inputGroup}>
@@ -210,26 +235,44 @@ export default function AddGarmentScreen() {
                 />
               </View>
 
+              {/* Interactive Fit Selector */}
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Detected Category</Text>
-                <TextInput
-                  value={category}
-                  onChangeText={setCategory}
-                  style={styles.textInput}
-                />
+                <Text style={styles.inputLabel}>Fit (Level B Inferable)</Text>
+                <View style={styles.pillRow}>
+                  {['oversized', 'regular', 'relaxed', 'boxy'].map((f) => (
+                    <TouchableOpacity
+                      key={f}
+                      onPress={() => setFit(f)}
+                      style={[styles.pillBtn, fit === f && styles.pillBtnActive]}
+                    >
+                      <Text style={[styles.pillBtnText, fit === f && styles.pillBtnTextActive]}>
+                        {f.charAt(0).toUpperCase() + f.slice(1)}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              {/* Interactive Material Selector */}
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Material (Level B Inferable)</Text>
+                <View style={styles.pillRow}>
+                  {['100% Cotton', 'Denim Twill', 'Linen Blend', 'Polyester'].map((m) => (
+                    <TouchableOpacity
+                      key={m}
+                      onPress={() => setMaterial(m)}
+                      style={[styles.pillBtn, material === m && styles.pillBtnActive]}
+                    >
+                      <Text style={[styles.pillBtnText, material === m && styles.pillBtnTextActive]}>
+                        {m}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Fabric & Texture</Text>
-                <TextInput
-                  value={material}
-                  onChangeText={setMaterial}
-                  style={styles.textInput}
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Purchase Price (₹)</Text>
+                <Text style={styles.inputLabel}>Purchase Price (₹) for Cost-Per-Wear</Text>
                 <TextInput
                   value={price}
                   onChangeText={setPrice}
@@ -240,7 +283,7 @@ export default function AddGarmentScreen() {
             </View>
 
             <Button
-              title="Add to My Almirah 🌶️"
+              title="Confirm &amp; Add to My Almirah 🌶️"
               onPress={handleFinishSave}
               size="lg"
               style={{ width: '100%', marginTop: 20 }}
@@ -401,5 +444,107 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     fontSize: 14,
     color: '#FFFFFF',
+  },
+  observabilityCard: {
+    backgroundColor: COLORS.dark.surface,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: COLORS.dark.border,
+    padding: 16,
+    marginBottom: 20,
+    gap: 10,
+  },
+  obsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  obsKicker: {
+    fontSize: 10,
+    fontFamily: 'monospace',
+    color: COLORS.spice.gold,
+    fontWeight: '700',
+    letterSpacing: 1,
+  },
+  confidencePill: {
+    backgroundColor: 'rgba(46, 125, 50, 0.2)',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: COLORS.semantic.success,
+  },
+  confidencePillText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#81C784',
+  },
+  obsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  obsLevelBadge: {
+    fontSize: 10,
+    fontWeight: '800',
+    fontFamily: 'monospace',
+    color: '#64B5F6',
+    backgroundColor: 'rgba(33, 150, 243, 0.15)',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  obsLevelBadgeB: {
+    fontSize: 10,
+    fontWeight: '800',
+    fontFamily: 'monospace',
+    color: '#BA68C8',
+    backgroundColor: 'rgba(186, 104, 200, 0.15)',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  obsLevelBadgeC: {
+    fontSize: 10,
+    fontWeight: '800',
+    fontFamily: 'monospace',
+    color: '#FFB74D',
+    backgroundColor: 'rgba(255, 183, 77, 0.15)',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  obsText: {
+    fontSize: 12,
+    color: '#FFFFFF',
+    fontWeight: '500',
+    flex: 1,
+  },
+  pillRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  pillBtn: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+    backgroundColor: COLORS.dark.surface,
+    borderWidth: 1,
+    borderColor: COLORS.dark.border,
+  },
+  pillBtnActive: {
+    backgroundColor: COLORS.chili[600],
+    borderColor: COLORS.chili[400],
+  },
+  pillBtnText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: COLORS.dark.muted,
+  },
+  pillBtnTextActive: {
+    color: '#FFFFFF',
+    fontWeight: '700',
   },
 });

@@ -44,10 +44,10 @@ export default function AlmirahScreen() {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.titleRow}>
-          <div>
+          <View>
             <Text style={styles.kicker}>DIGITAL WARDROBE</Text>
             <Text style={styles.title}>My Almirah ({garments.length})</Text>
-          </div>
+          </View>
           <TouchableOpacity
             onPress={() => router.push('/(tabs)/almirah/add' as any)}
             activeOpacity={0.8}

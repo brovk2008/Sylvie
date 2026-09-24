@@ -48,8 +48,15 @@ class GarmentAttributesModel(BaseModel):
     outfit_role: str = "foundation"
     clo_value: float = 0.15
 
-    # AI Metadata
+    # 15. Color Distribution & Psychology
+    color_distribution: Optional[Dict[str, Any]] = Field(default_factory=lambda: {"rule": "60_30_10", "dominant_area_pct": 70, "secondary_area_pct": 20, "accent_area_pct": 10})
+    color_psychology: Dict[str, float] = Field(default_factory=dict)
+    body_effect: Optional[Dict[str, Any]] = None
+
+    # AI Metadata & Observability Classification (Levels A, B, C, D)
     ai_confidence: Dict[str, float] = Field(default_factory=dict)
+    observability_levels: Dict[str, str] = Field(default_factory=dict)
+    action_tiers: Dict[str, str] = Field(default_factory=dict)
 
 class GarmentAnalysisRequest(BaseModel):
     image_base64: str
