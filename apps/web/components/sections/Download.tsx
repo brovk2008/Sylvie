@@ -1,13 +1,16 @@
 'use client';
 
 import React from 'react';
-import { Download, QrCode, Smartphone, ShieldCheck, AlertCircle, Terminal } from 'lucide-react';
+import { Download, QrCode, Smartphone, ShieldCheck, AlertCircle, ExternalLink, Activity } from 'lucide-react';
+
+const GITHUB_RELEASE_APK = 'https://github.com/brovk2008/Sylvie/releases/latest/download/sylvie.apk';
+const LOCAL_APK = '/sylvie.apk';
 
 export const DownloadSection = () => {
   return (
-    <section id="download" className="py-24 bg-gradient-to-b from-dark-bg via-[#1F0C0A] to-dark-bg relative overflow-hidden">
+    <section id="download" className="py-28 bg-gradient-to-b from-dark-bg via-[#1F0C0A] to-dark-bg relative overflow-hidden">
       {/* Background ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-chili-500/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-chili-500/15 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-6 sm:px-8 relative z-10 text-center">
         <span className="text-xs font-mono font-semibold uppercase tracking-widest text-chili-400">
@@ -17,7 +20,7 @@ export const DownloadSection = () => {
           Install Sylvie on your Android device
         </h2>
         <p className="text-spice-parchment/70 text-base sm:text-lg max-w-2xl mx-auto mb-12">
-          Experience personal styling on real hardware. Download the standalone APK directly or scan the QR code to install.
+          Experience AI styling on real hardware. Download the standalone APK directly or scan the QR code to install.
         </p>
 
         {/* Download Card Container */}
@@ -38,8 +41,8 @@ export const DownloadSection = () => {
                 Sylvie for Android
               </h3>
 
-              <div className="flex items-center gap-4 text-xs font-mono text-spice-parchment/60 mb-6">
-                <span>48 MB</span>
+              <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-spice-parchment/60 mb-6">
+                <span>Universal APK</span>
                 <span>•</span>
                 <span>Android 8.0+</span>
                 <span>•</span>
@@ -48,14 +51,26 @@ export const DownloadSection = () => {
                 </span>
               </div>
 
-              <a
-                href="/sylvie.apk"
-                download="sylvie-v1.0.0.apk"
-                className="inline-flex items-center justify-center gap-3 w-full py-4 px-8 rounded-full bg-chili-500 hover:bg-chili-600 text-white font-bold text-base transition-all duration-300 shadow-chili hover:scale-105 active:scale-95"
-              >
-                <Download className="w-5 h-5" />
-                <span>Download APK File</span>
-              </a>
+              <div className="flex flex-col gap-3">
+                <a
+                  href={LOCAL_APK}
+                  download="sylvie-v1.0.0.apk"
+                  className="inline-flex items-center justify-center gap-3 w-full py-4 px-8 rounded-full bg-chili-500 hover:bg-chili-600 text-white font-bold text-base transition-all duration-300 shadow-chili hover:scale-105 active:scale-95 group"
+                >
+                  <Download className="w-5 h-5 transition-transform group-hover:-translate-y-0.5" />
+                  <span>Direct Download APK</span>
+                </a>
+
+                <a
+                  href={GITHUB_RELEASE_APK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-6 rounded-full bg-dark-surface hover:bg-dark-elevated border border-dark-border hover:border-chili-700/70 text-xs font-mono text-spice-parchment/80 transition-all hover:text-white"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-chili-400" />
+                  <span>GitHub Releases Mirror (Latest CI Build)</span>
+                </a>
+              </div>
             </div>
 
             {/* Right: SVG QR Code */}
@@ -112,8 +127,20 @@ export const DownloadSection = () => {
             </div>
           </div>
 
+          {/* Live System Indicator */}
+          <div className="mt-8 pt-6 border-t border-dark-border flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-spice-parchment/70 bg-dark-bg/60 p-4 rounded-2xl border">
+            <div className="flex items-center gap-2 text-emerald-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Backend API Live (sylvie-9vch.onrender.com)</span>
+            </div>
+            <div className="flex items-center gap-2 text-chili-300">
+              <Activity className="w-3.5 h-3.5 text-chili-400" />
+              <span>Neon Postgres &middot; Ohio (AWS US East 2)</span>
+            </div>
+          </div>
+
           {/* Android Side-load Tip */}
-          <div className="mt-8 pt-6 border-t border-dark-border text-left flex items-start gap-3 text-xs text-spice-parchment/70 bg-dark-bg/60 p-4 rounded-2xl border">
+          <div className="mt-4 text-left flex items-start gap-3 text-xs text-spice-parchment/60 p-2">
             <AlertCircle className="w-4 h-4 text-spice-gold shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-white">First time installing an APK?</p>

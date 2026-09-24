@@ -1,8 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
+
 import { Search, Check, Sparkles, RefreshCw } from 'lucide-react';
-import { INITIAL_STYLE_CARDS, STYLE_EXPANSION_MAP } from '@sylvie/fashion-ontology';
+import { INITIAL_STYLE_CARDS, STYLE_EXPANSION_MAP } from '@/lib/fashion-ontology';
+
+
+
 
 export const StyleSurveyPreview = () => {
   const [selectedStyles, setSelectedStyles] = useState<string[]>(['streetwear', 'minimalist']);
