@@ -30,58 +30,77 @@ export const Footer = () => {
           {/* Product Links */}
           <div>
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white mb-4">
-              Product
+              Explore Sylvie
             </h4>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-xs font-mono">
               <li>
-                <a href="#features" className="hover:text-chili-400 transition-colors">
-                  Fashion Vision AI
-                </a>
+                <Link href="/lookbook" className="hover:text-chili-400 transition-colors">
+                  Haute Lookbook
+                </Link>
               </li>
               <li>
-                <a href="#demo" className="hover:text-chili-400 transition-colors">
-                  Digital Almirah
-                </a>
+                <Link href="/science" className="hover:text-chili-400 transition-colors">
+                  Computational Fashion Science
+                </Link>
               </li>
               <li>
-                <a href="#quiz" className="hover:text-chili-400 transition-colors">
-                  Style Psychology Game
-                </a>
+                <Link href="/#demo" className="hover:text-chili-400 transition-colors">
+                  Digital Almirah Walkthrough
+                </Link>
               </li>
               <li>
-                <a href="#download" className="hover:text-chili-400 transition-colors">
-                  Android APK Build
-                </a>
+                <Link href="/login" className="hover:text-chili-400 transition-colors">
+                  Sylvie Studio Sign In
+                </Link>
+              </li>
+              <li>
+                <Link href="/download" className="hover:text-chili-400 transition-colors text-spice-gold flex items-center gap-1">
+                  <span>Android APK Portal</span> &rarr;
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Architecture / Docs */}
+          {/* Legal & Compliance */}
           <div>
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white mb-4">
-              Architecture
+              Trust & Legal
             </h4>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-xs font-mono">
               <li>
-                <span className="text-spice-parchment/60">YOLOv8 + Florence-2</span>
+                <Link href="/terms" className="hover:text-chili-400 transition-colors">
+                  Terms & Conditions
+                </Link>
               </li>
               <li>
-                <span className="text-spice-parchment/60">FashionCLIP + Qdrant</span>
+                <Link href="/privacy" className="hover:text-chili-400 transition-colors">
+                  Privacy & Biometric Policy
+                </Link>
               </li>
               <li>
-                <span className="text-spice-parchment/60">ISO 7730 CLO Model</span>
+                <span className="text-spice-parchment/50">Zero Photo Monetization</span>
               </li>
               <li>
-                <span className="text-spice-parchment/60">40-Swatch Tone Matrix</span>
+                <span className="text-spice-parchment/50">Neon AES-256 Storage</span>
+              </li>
+              <li>
+                <span className="text-emerald-400">API: sylvie-9vch.onrender.com</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="pt-8 border-t border-dark-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-spice-parchment/50">
-          <p>© {new Date().getFullYear()} Sylvie Fashion Systems. All rights reserved.</p>
-          <p className="text-chili-400/80">
-            🌶️ Built for style. Powered by intelligence. Named Sylvie.
+          <p>© {new Date().getFullYear()} Sylvie Fashion Systems Inc. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
+            <span>&middot;</span>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+            <span>&middot;</span>
+            <Link href="/download" className="hover:text-white transition-colors">Download APK</Link>
+          </div>
+          <p className="text-chili-400/90 font-medium">
+            🌶️ Chili Spice Haute Couture Intelligence
           </p>
         </div>
       </div>

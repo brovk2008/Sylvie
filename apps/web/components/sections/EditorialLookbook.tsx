@@ -144,8 +144,8 @@ export const EditorialLookbook = () => {
             <div className="group relative w-full rounded-3xl overflow-hidden border-2 border-chili-500/40 bg-dark-card shadow-chili-lg transition-all duration-500 hover:border-chili-400">
               <div className="relative aspect-[3/4] w-full overflow-hidden">
                 <Image
-                  src="/images/hero-editorial.jpg"
-                  alt="Vogue style editorial fashion portrait"
+                  src="/images/gala-editorial.jpg"
+                  alt="Vogue style haute couture gala velvet gown"
                   fill
                   priority
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -155,10 +155,10 @@ export const EditorialLookbook = () => {
                 {/* Floating Interactive Badge Over Image */}
                 <div className="absolute top-6 left-6 right-6 flex items-center justify-between pointer-events-none">
                   <div className="px-3.5 py-1.5 rounded-full bg-dark-bg/80 border border-chili-500/50 backdrop-blur-md text-xs font-mono tracking-wider text-chili-300">
-                    AESTHETIC ARCHETYPE
+                    HAUTE COUTURE 2026
                   </div>
                   <div className="px-3.5 py-1.5 rounded-full bg-chili-500 text-white font-mono text-xs font-semibold shadow-md">
-                    0.74 CLO
+                    1.15 CLO
                   </div>
                 </div>
 
@@ -166,21 +166,21 @@ export const EditorialLookbook = () => {
                 <div className="absolute bottom-6 left-6 right-6 p-6 rounded-2xl bg-dark-bg/85 border border-dark-border/80 backdrop-blur-lg">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-mono uppercase tracking-widest text-chili-400">
-                      The Terracotta Overcoat
+                      The Velvet Revolution
                     </span>
                     <span className="text-xs font-semibold text-emerald-400 flex items-center gap-1">
-                      <Sparkles className="w-3.5 h-3.5" /> 98% Skin Harmony
+                      <Sparkles className="w-3.5 h-3.5" /> 99.2% Harmony Score
                     </span>
                   </div>
                   <h4 className="font-display text-lg font-bold text-white mb-2">
-                    Warm Autumn Undertone Match
+                    Crimson Velvet & Gold Hardware
                   </h4>
                   <div className="flex items-center gap-2">
-                    <span className="w-4 h-4 rounded-full bg-[#E83B2E] border border-white/20" title="Chili Terracotta" />
-                    <span className="w-4 h-4 rounded-full bg-[#FDF5E6] border border-white/20" title="Cream Knit" />
-                    <span className="w-4 h-4 rounded-full bg-[#3B2219] border border-white/20" title="Mocha Trousers" />
-                    <span className="text-xs text-spice-parchment/60 ml-2 font-mono">
-                      Triadic Warm Palette
+                    <span className="w-4 h-4 rounded-full bg-[#FF2819] border border-white/20" title="Haute Chili" />
+                    <span className="w-4 h-4 rounded-full bg-[#E5B842] border border-white/20" title="Champagne Gold" />
+                    <span className="w-4 h-4 rounded-full bg-[#120605] border border-white/20" title="Noir Obsidian" />
+                    <span className="text-xs text-spice-parchment/70 ml-2 font-mono">
+                      Couture Gala Matrix
                     </span>
                   </div>
                 </div>
@@ -188,17 +188,17 @@ export const EditorialLookbook = () => {
             </div>
           </motion.div>
 
-          {/* Right Column — Skin Harmony & Street Style with Staggered Parallax */}
+          {/* Right Column — Runway Couture & Luxury Suite */}
           <motion.div
             style={{ y: yColumnRight, rotate: rotateCard2 }}
             className="md:col-span-3 flex flex-col gap-6"
           >
-            {/* Skin Harmony Card */}
+            {/* Runway Couture Card */}
             <div className="group relative rounded-3xl overflow-hidden border border-dark-border bg-dark-card shadow-xl transition-all duration-500 hover:border-chili-500/50">
               <div className="relative aspect-[3/4] w-full overflow-hidden">
                 <Image
-                  src="/images/skin-harmony.jpg"
-                  alt="Skin tone color matching portrait"
+                  src="/images/runway-couture.jpg"
+                  alt="Paris fashion week runway model"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -207,32 +207,23 @@ export const EditorialLookbook = () => {
 
               <div className="p-5">
                 <span className="text-xs font-mono uppercase text-spice-gold">
-                  Color Theory Engine
+                  Parisian Runway
                 </span>
                 <h3 className="font-display text-base font-bold text-white mt-1 mb-2">
-                  Olive & Golden Undertones
+                  Sculptural Silhouette
                 </h3>
-                <p className="text-xs text-spice-parchment/70 leading-relaxed">
-                  Avoids unflattering washed-out hues by comparing 40 calibrated Fitzpatrick & Monk undertone coordinates.
+                <p className="text-xs text-spice-parchment/70 leading-relaxed font-light">
+                  Tailored architectural draping mapped across 37 dimensional parameters.
                 </p>
-
-                {/* Floating Swatch Tag */}
-                <motion.div
-                  style={{ x: xTagRight }}
-                  className="mt-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-chili-950/80 border border-chili-700/60 text-[11px] font-mono text-chili-300"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-spice-gold" />
-                  <span>Optimal: Sage + Terracotta</span>
-                </motion.div>
               </div>
             </div>
 
-            {/* Street Style Card */}
+            {/* Wardrobe Suite Card */}
             <div className="group relative rounded-3xl overflow-hidden border border-dark-border bg-dark-card shadow-xl transition-all duration-500 hover:border-chili-500/50">
               <div className="relative aspect-[4/3] w-full overflow-hidden">
                 <Image
-                  src="/images/street-style.jpg"
-                  alt="Urban street style weather calibrated"
+                  src="/images/wardrobe-suite.jpg"
+                  alt="Luxury walk-in wardrobe dressing suite"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -241,15 +232,26 @@ export const EditorialLookbook = () => {
 
               <div className="p-5">
                 <div className="flex items-center justify-between text-xs font-mono text-chili-400 mb-1">
-                  <span>Weather-Driven</span>
-                  <span>14°C Crisp Chill</span>
+                  <span>Digital Almirah</span>
+                  <span>40 Garments</span>
                 </div>
                 <h4 className="font-display text-sm font-bold text-white">
-                  Dynamic Layering Engine
+                  Curated Walk-In Dressing Suite
                 </h4>
               </div>
             </div>
           </motion.div>
+        </div>
+
+        {/* View Full Lookbook Button */}
+        <div className="mt-16 text-center">
+          <a
+            href="/lookbook"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-dark-surface hover:bg-dark-elevated border border-chili-500/40 hover:border-chili-400 text-spice-parchment hover:text-white font-mono text-xs uppercase tracking-wider transition-all duration-300 shadow-lg hover:scale-105 group"
+          >
+            <span>Explore All Editorial Collections in Full Lookbook</span>
+            <ArrowUpRight className="w-4 h-4 text-chili-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </a>
         </div>
       </div>
     </section>

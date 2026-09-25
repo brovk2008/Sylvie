@@ -1,32 +1,34 @@
 export const COLORS = {
   chili: {
-    50: '#FEF2F1',
-    100: '#FDDFDC',
-    200: '#FCC4BF',
-    300: '#F99892',
-    400: '#F56A60',
-    500: '#E83B2E', // Primary Brand
-    600: '#C0271B',
-    700: '#9E1F15',
-    800: '#7B1810',
-    900: '#4A0E0A',
-    950: '#280706',
+    50: '#FFF5F4',
+    100: '#FEE8E6',
+    200: '#FDCAC6',
+    300: '#FA9F97',
+    400: '#FF4D3D',
+    500: '#FF2819', // Primary Haute Couture Electric Chili
+    600: '#E01E0E',
+    700: '#B81407',
+    800: '#8A0F05',
+    900: '#4A0705',
+    950: '#220302',
   },
   spice: {
-    cream: '#FDF5E6',
-    parchment: '#F7E8D0',
-    paprika: '#D35400',
-    terracotta: '#CB4335',
-    gold: '#C9A826',
-    charcoal: '#1C0A08',
-    ember: '#FF6B47',
+    cream: '#FDFBF7',     // Silk Satin Ivory
+    parchment: '#F5EBE1', // Warm Cashmere
+    paprika: '#FF5E1E',   // Electric Paprika
+    terracotta: '#E54536',
+    gold: '#E5B842',      // Imperial Champagne Gold
+    amber: '#FF8C38',     // Saffron Amber
+    charcoal: '#120504',
+    ember: '#FF7043',
   },
   dark: {
-    bg: '#0E0504',
-    surface: '#1F0C0A',
-    elevated: '#2E1410',
-    border: '#4A1C18',
-    muted: '#B87E78',
+    bg: '#080404',        // Deep Obsidian Noir
+    surface: '#120605',   // Espresso Obsidian
+    elevated: '#1C0B09',  // Polished Lacquer Mahogany
+    card: '#160807',      // Velvet Card Surface
+    border: '#381613',    // Fine Hairline Jewelry Border
+    muted: '#C49E99',     // Velvet Rose Taupe
   },
   semantic: {
     success: '#2E7D32',

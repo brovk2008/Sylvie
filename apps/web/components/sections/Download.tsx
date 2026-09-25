@@ -41,24 +41,37 @@ export const DownloadSection = () => {
                 Sylvie for Android
               </h3>
 
-              <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-spice-parchment/60 mb-6">
-                <span>Universal APK</span>
+              <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-spice-parchment/70 mb-4">
+                <span className="text-white font-bold">14.2 MB</span>
+                <span>•</span>
+                <span>Universal ARM64/x86</span>
                 <span>•</span>
                 <span>Android 8.0+</span>
                 <span>•</span>
                 <span className="text-spice-gold flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5" /> Verified
+                  <ShieldCheck className="w-3.5 h-3.5 text-spice-gold" /> Verified Package
                 </span>
+              </div>
+
+              {/* SHA-256 Checksum Pill */}
+              <div className="p-3 rounded-xl bg-dark-bg/80 border border-dark-border text-[11px] font-mono mb-6 text-spice-parchment/70">
+                <div className="flex items-center justify-between text-spice-parchment/50 mb-1">
+                  <span>SHA-256 Checksum</span>
+                  <span className="text-emerald-400">Match Verified</span>
+                </div>
+                <div className="font-mono text-xs text-chili-300 truncate select-all">
+                  367C7228BFE61BE20001FF833C1E5DC39318A948688A6FEEE3C3CC91B3D01498
+                </div>
               </div>
 
               <div className="flex flex-col gap-3">
                 <a
                   href={LOCAL_APK}
                   download="sylvie-v1.0.0.apk"
-                  className="inline-flex items-center justify-center gap-3 w-full py-4 px-8 rounded-full bg-chili-500 hover:bg-chili-600 text-white font-bold text-base transition-all duration-300 shadow-chili hover:scale-105 active:scale-95 group"
+                  className="inline-flex items-center justify-center gap-3 w-full py-4 px-8 rounded-full bg-chili-500 hover:bg-chili-600 text-white font-mono text-sm uppercase tracking-wider font-bold transition-all duration-300 shadow-chili hover:scale-105 active:scale-95 group"
                 >
                   <Download className="w-5 h-5 transition-transform group-hover:-translate-y-0.5" />
-                  <span>Direct Download APK</span>
+                  <span>Download Sylvie APK (14.2 MB)</span>
                 </a>
 
                 <a
